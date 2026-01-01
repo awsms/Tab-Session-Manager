@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import browser from "webextension-polyfill";
 import PlusIcon from "../icons/plus.svg";
 import "../styles/Modal.scss";
@@ -8,11 +7,13 @@ export default class Modal extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.modalRef = React.createRef();
   }
 
   focusModal = () => {
     setTimeout(() => {
-      const modal = ReactDOM.findDOMNode(this.refs.modal);
+      const modal = this.modalRef.current;
+      if (!modal) return;
       const closeButton = modal.querySelector("button");
       const focusElementInContent = modal
         .querySelector(".modalContent")
@@ -27,7 +28,8 @@ export default class Modal extends Component {
     const isPrevFocus = e.key === "Tab" && e.shiftKey;
     if (!isNextFocus && !isPrevFocus) return;
 
-    const modal = ReactDOM.findDOMNode(this.refs.modal);
+    const modal = this.modalRef.current;
+    if (!modal) return;
     const focusElements = modal.querySelectorAll("input, button, a");
     const firstElement = focusElements[0];
     const lastElement = focusElements[focusElements.length - 1];
@@ -64,7 +66,7 @@ export default class Modal extends Component {
       >
         <div
           id="modal"
-          ref="modal"
+          ref={this.modalRef}
           role="dialog"
           onKeyDown={this.loopFocus}
           onClick={this.stopPropagation}

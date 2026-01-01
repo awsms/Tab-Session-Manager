@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import browserInfo from "browser-info";
 import SettingsPage from "./SettingsPage";
 import SessionsPage from "./SessionsPage";
@@ -11,12 +11,12 @@ const isValidShortcuts = browserInfo().name == "Firefox" && browserInfo().versio
 
 export default () => (
   <div className="contentsArea">
-    <Switch>
-      <Route path="/settings" component={SettingsPage} />
-      <Route path="/sessions" component={SessionsPage} />
-      {isValidShortcuts && <Route path="/shortcuts" component={KeyboardShortcutsPage} />}
-      <Route path="/information" component={InformationPage} />
-      <Route component={SettingsPage} />
-    </Switch>
+    <Routes>
+      <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/sessions" element={<SessionsPage />} />
+      {isValidShortcuts && <Route path="/shortcuts" element={<KeyboardShortcutsPage />} />}
+      <Route path="/information" element={<InformationPage />} />
+      <Route path="*" element={<SettingsPage />} />
+    </Routes>
   </div>
 );

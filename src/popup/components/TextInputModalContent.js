@@ -40,7 +40,6 @@ export default class TextInputModalContent extends Component {
             placeholder={placeholder || ""}
             value={this.state.inputText}
             onChange={this.handleChange}
-            ref="input"
           />
           <div className="buttons">
             <button type="button" onClick={closeModal}>

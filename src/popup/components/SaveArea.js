@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import browser from "webextension-polyfill";
 import { getSettings, initSettings } from "src/settings/settings";
 import SaveMenuItems from "./SaveMenuItems";
@@ -84,7 +83,6 @@ export default class SaveArea extends Component {
         <div className="inputForm">
           <input
             type="text"
-            ref="input"
             spellCheck={false}
             placeholder={browser.i18n.getMessage("initialNameValue")}
             onKeyPress={this.handleKeyPress}

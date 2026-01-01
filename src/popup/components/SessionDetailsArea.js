@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import browser from "webextension-polyfill";
 import moment from "moment";
 import { getSettings } from "src/settings/settings";
@@ -105,7 +104,7 @@ export default class SessionDetailsArea extends Component {
       );
 
     return (
-      <div id="sessionDetailArea" ref="sessionDetailArea">
+      <div id="sessionDetailArea">
         <div className="sessionHeader">
           <div className="lineContainer">
             <NameContainer

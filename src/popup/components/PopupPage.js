@@ -155,7 +155,7 @@ export default class PopupPage extends Component {
         type: "info",
         duration: 20000,
         buttonLabel: browser.i18n.getMessage("seeMoreLabel"),
-        onClick: () => openUrl("../options/index.html#information?action=updated")
+        onClick: () => openUrl("../options/index.html#/information?action=updated")
       });
       setSettings("isShowUpdated", false);
     }

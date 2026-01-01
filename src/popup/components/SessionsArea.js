@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import browser from "webextension-polyfill";
 import { getSettings } from "src/settings/settings";
 import { sendOpenMessage } from "../actions/controlSessions";
@@ -138,7 +137,7 @@ export default class SessionsArea extends Component {
     this.prevSearchWords = searchWords;
 
     if (!isInitSessions) {
-      const selectedItemTop = ReactDOM.findDOMNode(this.selectedItemRef?.current)?.offsetTop;
+      const selectedItemTop = this.selectedItemRef?.current?.offsetTop;
       this.scrollTo(selectedItemTop);
     }
   }
@@ -197,7 +196,7 @@ export default class SessionsArea extends Component {
                 session={session}
                 isSelected={selectedSessionId === session.id}
                 isTracking={trackingSessions.includes(session.id)}
-                ref={selectedSessionId === session.id ? this.selectedItemRef : null}
+                selectedItemRef={selectedSessionId === session.id ? this.selectedItemRef : null}
                 order={sortedSessions.findIndex(sortedSession => sortedSession.id === session.id)}
                 searchWords={searchWords}
                 removeSession={removeSession}

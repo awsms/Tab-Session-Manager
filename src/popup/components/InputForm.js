@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import CheckIcon from "../icons/check.svg";
 import "../styles/InputForm.scss";
 
 export default class InputForm extends Component {
+  inputRef = React.createRef();
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit(e.target[0].value);
@@ -12,8 +13,7 @@ export default class InputForm extends Component {
 
   focusInput() {
     if (!this.props.isFocus) return;
-    const input = ReactDOM.findDOMNode(this.refs.input);
-    input.focus();
+    this.inputRef.current?.focus();
   }
 
   componentDidMount() {
@@ -25,7 +25,7 @@ export default class InputForm extends Component {
       <form className="inputForm" onSubmit={this.handleSubmit} autoComplete="off">
         <input
           type="text"
-          ref="input"
+          ref={this.inputRef}
           spellCheck={false}
           defaultValue={this.props.defaultValue || ""}
           placeholder={this.props.placeholder || ""}

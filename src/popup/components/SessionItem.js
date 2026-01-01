@@ -50,8 +50,7 @@ export default class Session extends Component {
   }
 
   render() {
-    const { session, isSelected, isTracking, order, searchWords,
-      handleSessionSelect } = this.props;
+    const { session, isSelected, isTracking, order, searchWords, handleSessionSelect, selectedItemRef } = this.props;
 
     return (
       <div className={`sessionItem ${isSelected ? "isSelected" : ""} ${isTracking ? "isTracking" : ""}`}
@@ -61,7 +60,10 @@ export default class Session extends Component {
           onClick={() => handleSessionSelect(session.id)}
           onDoubleClick={this.handleOpenClick}
           onContextMenu={this.handleSessionRightClick}
-          ref={this.sessionItemElement}
+          ref={node => {
+            this.sessionItemElement.current = node;
+            if (selectedItemRef) selectedItemRef.current = node;
+          }}
         >
           <span className={`name ${getSettings("truncateTitle") ? "isTruncate" : ""}`}>
             <Highlighter

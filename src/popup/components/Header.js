@@ -38,7 +38,7 @@ const SyncStatus = props => {
 
 const openSettings = () => {
   log.info(logDir, "openSettings()");
-  const url = "../options/index.html#settings";
+  const url = "../options/index.html#/settings";
   openUrl(url);
 };
 

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import browser from "webextension-polyfill";
 import browserInfo from "browser-info";
 import queryString from "query-string";
+import { useLocation } from "react-router-dom";
 import OptionsContainer from "./OptionContainer";
 import manifest from "src/manifest.json";
 
-export default props => {
-  const query = queryString.parse(props.location.search);
+export default () => {
+  const location = useLocation();
+  const query = queryString.parse(location.search || "");
 
   const extensionVersion = manifest.version;
   const isChrome = browserInfo().name == "Chrome";

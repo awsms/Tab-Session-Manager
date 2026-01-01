@@ -17,10 +17,18 @@ const setupTheme = async () => {
   });
 };
 
+const normalizeHash = () => {
+  const { hash } = window.location;
+  if (hash.length > 1 && !hash.startsWith("#/")) {
+    window.location.hash = `#/${hash.slice(1)}`;
+  }
+};
+
 export default () => {
+  normalizeHash();
   setupTheme();
   return (
-    <HashRouter hashType="noslash">
+    <HashRouter>
       <ScrollToTop>
         <div className="optionsPage">
           <SideBar />

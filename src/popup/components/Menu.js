@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import browser from "webextension-polyfill";
 import { getSettings } from "src/settings/settings";
 import PlusIcon from "../icons/plus.svg";
@@ -11,10 +10,12 @@ export default class Menu extends Component {
     this.state = {
       position: { x: 0, y: 0 }
     };
+    this.menuRef = React.createRef();
   }
 
   calcPosition = () => {
-    const menu = ReactDOM.findDOMNode(this.refs.menu);
+    const menu = this.menuRef.current;
+    if (!menu) return { x: 0, y: 0 };
     const menuWidth = menu.offsetWidth;
     const menuHeight = menu.offsetHeight;
     const { x, y } = this.props.menu;
@@ -34,7 +35,8 @@ export default class Menu extends Component {
   };
 
   focusMenu = () => {
-    const menu = ReactDOM.findDOMNode(this.refs.menu);
+    const menu = this.menuRef.current;
+    if (!menu) return;
     menu.querySelector("button").focus();
   };
 
@@ -43,7 +45,8 @@ export default class Menu extends Component {
     const isPrevFocus = e.key === "Tab" && e.shiftKey;
     if (!isNextFocus && !isPrevFocus) return;
 
-    const menu = ReactDOM.findDOMNode(this.refs.menu);
+    const menu = this.menuRef.current;
+    if (!menu) return;
     const buttons = menu.querySelectorAll("button");
     const firstButton = buttons[0];
     const lastButton = buttons[buttons.length - 1];
@@ -76,7 +79,7 @@ export default class Menu extends Component {
       menu.isOpen && (
         <div
           id="menu"
-          ref="menu"
+          ref={this.menuRef}
           style={{ left: this.state.position.x, top: this.state.position.y }}
           role="dialog"
           onKeyDown={this.loopFocus}
