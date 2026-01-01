@@ -92,6 +92,17 @@
         }
       }
     }
+
+    .detailsSearch {
+      margin-top: 6px;
+    }
+    .detailsSearch.inputForm {
+      height: 26px;
+    }
+    .detailsSearch input {
+      padding-left: 8px;
+      border-radius: 2px;
+    }
   }
 
   .noSession {

@@ -32,6 +32,15 @@ const getOpenButtonTitle = () => {
 export default class SessionDetailsArea extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      detailSearchWord: ""
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.session.id !== this.props.session.id) {
+      this.setState({ detailSearchWord: "" });
+    }
   }
 
   handleMenuClick = e => {
@@ -60,30 +69,31 @@ export default class SessionDetailsArea extends Component {
     this.props.removeSession(this.props.session.id);
   };
 
-  shouldComponentUpdate = nextProps => {
+  handleDetailSearchChange = e => {
+    this.setState({ detailSearchWord: e.target.value });
+  };
+
+  getDetailSearchWords = () => {
+    const value = this.state.detailSearchWord.trim().toLowerCase();
+    if (!value) return [];
+    return value.split(/\s+/);
+  };
+
+  shouldComponentUpdate = (nextProps, nextState) => {
     const isChangeSession = this.props.session.id !== nextProps.session.id;
     const isUpdateSession = this.props.session.lastEditedTime !== nextProps.session.lastEditedTime;
     const isLoadedSession =
       this.props.session.hasOwnProperty("windows") !== nextProps.session.hasOwnProperty("windows");
     const isChangedTagList = this.props.tagList !== nextProps.tagList;
     const isChangedTracking = this.props.isTracking !== nextProps.isTracking;
-    return (
-      isChangeSession || isUpdateSession || isLoadedSession || isChangedTagList || isChangedTracking
-    );
+    const isDetailSearchChanged = this.state.detailSearchWord !== nextState.detailSearchWord;
+    return isChangeSession || isUpdateSession || isLoadedSession || isChangedTagList || isChangedTracking || isDetailSearchChanged;
   };
 
   render() {
-    const {
-      session,
-      searchWords,
-      isTracking,
-      removeWindow,
-      removeTab,
-      openModal,
-      closeModal,
-      tagList,
-      openMenu
-    } = this.props;
+    const { session, searchWords, isTracking, removeWindow, removeTab, openModal, closeModal, tagList, openMenu } = this.props;
+    const detailSearchWords = this.getDetailSearchWords();
+    const highlightWords = detailSearchWords.length > 0 ? detailSearchWords : searchWords;
 
     if (!session.id)
       return (
@@ -145,10 +155,20 @@ export default class SessionDetailsArea extends Component {
               </button>
             </div>
           </div>
+          <div className="detailsSearch inputForm">
+            <input
+              type="text"
+              value={this.state.detailSearchWord}
+              onChange={this.handleDetailSearchChange}
+              placeholder={browser.i18n.getMessage("search")}
+              title={browser.i18n.getMessage("search")}
+            />
+          </div>
         </div>
         <DetailsContainer
           session={session}
-          searchWords={searchWords}
+          searchWords={highlightWords}
+          filterWords={detailSearchWords}
           removeWindow={removeWindow}
           removeTab={removeTab}
           openMenu={openMenu}

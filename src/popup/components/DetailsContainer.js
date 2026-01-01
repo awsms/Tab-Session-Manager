@@ -14,6 +14,26 @@ import WindowIncognitoFirefoxIcon from "../icons/window_incognito_firefox.svg";
 import "../styles/DetailsContainer.scss";
 import Highlighter from "react-highlight-words";
 
+const getTabSearchText = tab => {
+  const title = (tab.title || "").toLowerCase();
+  const urlText = (tab.url || "").toLowerCase();
+  let host = "";
+  if (tab.url) {
+    try {
+      host = new URL(tab.url).hostname.toLowerCase();
+    } catch (e) {
+      host = "";
+    }
+  }
+  return `${title} ${urlText} ${host}`;
+};
+
+const matchesTabSearch = (tab, searchWords) => {
+  if (!searchWords || searchWords.length === 0) return true;
+  const haystack = getTabSearchText(tab);
+  return searchWords.every(word => haystack.includes(word));
+};
+
 const FavIcon = props => (
   <img
     className="favIcon"
@@ -177,7 +197,8 @@ class WindowContainer extends Component {
 }
 
 export default props => {
-  const { session, searchWords, removeWindow, removeTab, openMenu } = props;
+  const { session, searchWords, filterWords, removeWindow, removeTab, openMenu } = props;
+  const activeFilterWords = (filterWords || []).filter(Boolean);
 
   if (!session.windows) return null;
 
@@ -191,21 +212,33 @@ export default props => {
 
   return (
     <div className="detailsContainer scrollbar">
-      {Object.keys(session.windows).map(windowId => (
-        <WindowContainer
-          tabs={session.windows[windowId]}
-          windowTitle={session?.windowsInfo?.[windowId]?.title}
-          windowId={windowId}
-          sessionId={session.id}
-          windowsNumber={session.windowsNumber}
-          allTabsNumber={session.tabsNumber}
-          searchWords={searchWords}
-          handleRemoveWindow={handleRemoveWindow}
-          handleRemoveTab={handleRemoveTab}
-          openMenu={openMenu}
-          key={`${session.id}${windowId}`}
-        />
-      ))}
+      {Object.keys(session.windows).map(windowId => {
+        const tabs = session.windows[windowId];
+        const tabList = Object.values(tabs);
+        const filteredTabList = activeFilterWords.length === 0
+          ? tabList
+          : tabList.filter(tab => matchesTabSearch(tab, activeFilterWords));
+        if (filteredTabList.length === 0) return null;
+        const filteredTabs = filteredTabList.reduce((acc, tab) => {
+          acc[tab.id] = tab;
+          return acc;
+        }, {});
+        return (
+          <WindowContainer
+            tabs={filteredTabs}
+            windowTitle={session?.windowsInfo?.[windowId]?.title}
+            windowId={windowId}
+            sessionId={session.id}
+            windowsNumber={session.windowsNumber}
+            allTabsNumber={session.tabsNumber}
+            searchWords={searchWords}
+            handleRemoveWindow={handleRemoveWindow}
+            handleRemoveTab={handleRemoveTab}
+            openMenu={openMenu}
+            key={`${session.id}${windowId}`}
+          />
+        );
+      })}
     </div>
   );
 };
