@@ -5,6 +5,37 @@ import mozlz4a from "mozlz4a";
 import { v4 as uuidv4 } from "uuid";
 import OptionContainer from "./OptionContainer";
 
+// Debug helper to capture import failures for investigation.
+const DEBUG_IMPORT_FAILURE = true;
+const debugLogged = new Set();
+const saveImportFailureDebug = async (fileName, reason, details) => {
+  if (!DEBUG_IMPORT_FAILURE) return;
+  const key = `${fileName}:${reason}`;
+  if (debugLogged.has(key)) return;
+  debugLogged.add(key);
+  try {
+    const stack = new Error().stack;
+    const payload = {
+      reason,
+      fileName,
+      timestamp: new Date().toISOString(),
+      details,
+      stack
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    await browser.downloads.download({
+      url,
+      filename: `tab-session-manager-debug/import-failure-${Date.now()}.json`,
+      saveAs: false,
+      conflictAction: "uniquify"
+    });
+    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  } catch (e) {
+    console.error("import debug file save failed", e);
+  }
+};
+
 const fileOpen = file => {
   if (/(?:\.jsonlz4|\.baklz4)(-\d+)?$/.test(file.name.toLowerCase())) {
     // sessionstore.jsonlz4
@@ -28,18 +59,33 @@ const fileOpen = file => {
       let text = reader.result;
       if (file.name.toLowerCase().endsWith(".json")) {
         // Ignore BOM
-        if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
-        if (!isJSON(text)) return resolve();
-
-        let jsonFile = JSON.parse(text);
-        if (isTSM(jsonFile)) {
-          return resolve(parseSession(jsonFile));
-        }
-        if (isSessionBuddy(jsonFile)) {
-          return resolve(convertSessionBuddy(jsonFile));
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+        if (!isJSON(text)) {
+          saveImportFailureDebug(file.name, "invalid JSON", { snippet: text.slice(0, 4000) });
+          return resolve();
         }
 
-        return resolve();
+        try {
+          let jsonFile = JSON.parse(text);
+          if (isTSM(jsonFile)) {
+            return resolve(parseSession(jsonFile, file.name));
+          }
+          if (isSessionBuddy(jsonFile)) {
+            return resolve(convertSessionBuddy(jsonFile));
+          }
+
+          saveImportFailureDebug(file.name, "unrecognized JSON structure", {
+            keys: Object.keys(jsonFile || {}),
+            type: typeof jsonFile
+          });
+          return resolve();
+        } catch (error) {
+          saveImportFailureDebug(file.name, "parse error", {
+            message: error.message,
+            snippet: text.slice(0, 4000)
+          });
+          return resolve();
+        }
       }
 
       if (file.name.toLowerCase().endsWith(".session")) {
@@ -81,11 +127,26 @@ const isTSM = file => {
   return true;
 };
 
-const parseSession = file => {
+const parseSession = (file, fileName = "unknown") => {
+  try {
   for (const session of file) {
     //ver1.9.2以前のセッションのタグを配列に変更
     if (!Array.isArray(session.tag)) {
-      session.tag = session.tag.split(" ");
+      const originalTag = session.tag;
+      if (typeof session.tag === "string" && typeof session.tag.split === "function") {
+        session.tag = session.tag.split(" ");
+      } else if (originalTag && typeof originalTag === "object" && Array.isArray(originalTag.values)) {
+        // Handles serialized arrays like {"__type__":"JSArray","values":["foo"],"properties":{}}
+        session.tag = originalTag.values;
+      } else {
+        // Malformed tag field; fall back to empty array instead of throwing.
+        saveImportFailureDebug(fileName, "invalid tag field", {
+          originalTagType: typeof originalTag,
+          originalTagValue: JSON.stringify(originalTag)?.slice(0, 2000),
+          sessionPreview: JSON.stringify(session)?.slice(0, 2000)
+        });
+        session.tag = [];
+      }
     }
     //ver1.9.2以前のセッションにUUIDを追加 タグからauto, userを削除
     if (!session["id"]) {
@@ -109,6 +170,13 @@ const parseSession = file => {
     }
   }
   return file;
+  } catch (err) {
+    saveImportFailureDebug(fileName, "parseSession crash", {
+      message: err.message,
+      stack: err.stack
+    });
+    return;
+  }
 };
 
 const isSessionBuddy = file => {
@@ -209,7 +277,7 @@ const convertSessionManager = file => {
 
 const convertMozLz4Sessionstore = async file => {
   const mozSession = JSON.parse(new TextDecoder().decode(file));
-  if (!(mozSession.version[0] === "sessionrestore" && mozSession.version[1] === 1)) {
+  if (!(mozSession.version[0] === 'sessionrestore' && mozSession.version[1] === 1)) {
     return;
   }
 
@@ -217,7 +285,7 @@ const convertMozLz4Sessionstore = async file => {
   session.windows = {};
   session.windowsNumber = 0;
   session.tabsNumber = 0;
-  session.name = "sessionstore backup " + moment(mozSession.session.lastUpdate).toLocaleString();
+  session.name = 'sessionstore backup ' + moment(mozSession.session.lastUpdate).toLocaleString();
   session.date = mozSession.session.lastUpdate;
   session.lastEditedTime = Date.now();
   session.tag = [];
@@ -238,7 +306,7 @@ const convertMozLz4Sessionstore = async file => {
           url: tab.entries[entryIndex].url,
           title: tab.entries[entryIndex].title,
           favIconUrl: tab.image,
-          discarded: true
+          discarded: true,
         };
       } else {
         // User typed value into URL bar but page was not loaded
@@ -247,10 +315,10 @@ const convertMozLz4Sessionstore = async file => {
           index: index,
           windowId: parseInt(win, 10),
           lastAccessed: tab.lastAccessed,
-          url: "about:blank#" + tab.userTypedValue,
-          title: "New Tab",
+          url: 'about:blank#' + tab.userTypedValue,
+          title: 'New Tab',
           favIconUrl: tab.image,
-          discarded: true
+          discarded: true,
         };
       }
       index++;
@@ -360,24 +428,14 @@ export default class ImportSessionsComponent extends Component {
           id="import"
           title="importLabel"
           captions={["importCaptionLabel", "importCaptionLabel2"]}
-          extraCaption={
-            <p className="caption">
-              - Tab Session Manager (.json)
-              <br />
-              - Session Buddy (.json)
-              <br />
-              - Session Manager (.session)
-              <br />
-              - Firefox Session Store Backup (.jsonlz4 .baklz4)
-              <br />
-              <a
-                href="https://github.com/sienori/Tab-Session-Manager/wiki/Q&A:-How-to-import-sessions-from-other-extensions"
-                target="_blank"
-              >
-                {browser.i18n.getMessage("importCaptionLabel3")}{" "}
-              </a>
-            </p>
-          }
+          extraCaption={<p className="caption">
+            - Tab Session Manager (.json)<br />
+            - Session Buddy (.json)<br />
+            - Session Manager (.session)<br />
+            - Firefox Session Store Backup (.jsonlz4 .baklz4)<br />
+            <a href="https://github.com/sienori/Tab-Session-Manager/wiki/Q&A:-How-to-import-sessions-from-other-extensions"
+              target="_blank">{browser.i18n.getMessage("importCaptionLabel3")} </a>
+          </p>}
           type="file"
           value="importButtonLabel"
           accept=".json, .session, .jsonlz4, .baklz4"
