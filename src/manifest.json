@@ -34,6 +34,11 @@
     },
     "default_popup": "popup/index.html"
   },
+  "externally_connectable": {
+    "ids": [
+      "aajlcoiaogpknhgninhopncaldipjdnp"
+    ]
+  },
   "commands": {
     "_execute_action": {
       "description": "__MSG_openPopupDescription__",

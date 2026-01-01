@@ -43,6 +43,37 @@ import { compressAllSessions } from "./compressAllSessions";
 import { startTracking, endTrackingByWindowDelete, updateTrackingStatus } from "./track";
 
 const logDir = "background/background";
+const allowedExternalIds = new Set(["aajlcoiaogpknhgninhopncaldipjdnp"]);
+
+const isUserSession = session => {
+  const tags = session?.tag || [];
+  if (tags.includes("temp")) return false;
+  return !tags.includes("regular") && !tags.includes("winClose") && !tags.includes("browserExit");
+};
+
+const getSessionTabs = session => {
+  if (!session || !session.windows) return [];
+  const tabs = [];
+  Object.entries(session.windows).forEach(([windowId, tabsById]) => {
+    const tabList = Object.values(tabsById || {}).sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+    tabList.forEach(tab => {
+      tabs.push({
+        sessionId: session.id,
+        sessionName: session.name,
+        windowId: windowId,
+        tabId: tab.id,
+        title: tab.title || "",
+        url: tab.url || "",
+        favIconUrl: tab.favIconUrl,
+        index: tab.index,
+        pinned: tab.pinned,
+        active: tab.active,
+        incognito: tab.incognito
+      });
+    });
+  });
+  return tabs;
+};
 
 let IsInit = false;
 export const init = async () => {
@@ -183,6 +214,47 @@ const onMessageListener = async (request, sender, sendResponse) => {
   }
 };
 
+const onMessageExternalListener = async (request, sender) => {
+  await init();
+  if (!allowedExternalIds.has(sender.id)) {
+    log.warn(logDir, "onMessageExternalListener() unauthorized", sender.id);
+    return { ok: false, error: "unauthorized" };
+  }
+
+  switch (request?.message) {
+    case "tsm.getUserSessions": {
+      const sessions = await Sessions.getAll();
+      const userSessions = sessions
+        .filter(isUserSession)
+        .map(session => ({
+          id: session.id,
+          name: session.name,
+          date: session.date,
+          tag: session.tag,
+          tabsNumber: session.tabsNumber,
+          windowsNumber: session.windowsNumber,
+          lastEditedTime: session.lastEditedTime
+        }));
+      return { ok: true, data: userSessions };
+    }
+    case "tsm.getUserSessionTabs": {
+      const sessionId = request?.sessionId;
+      if (!sessionId) return { ok: false, error: "missingSessionId" };
+      const session = await getSessions(sessionId);
+      if (!session || !isUserSession(session)) return { ok: false, error: "notFound" };
+      return { ok: true, data: getSessionTabs(session) };
+    }
+    case "tsm.getAllUserSessionTabs": {
+      const sessions = await Sessions.getAll();
+      const userSessions = sessions.filter(isUserSession);
+      const tabs = userSessions.flatMap(getSessionTabs);
+      return { ok: true, data: tabs };
+    }
+    default:
+      return { ok: false, error: "unknownMessage" };
+  }
+};
+
 const handleReplace = async () => {
   await init();
   replacePage();
@@ -211,6 +283,7 @@ browser.runtime.onStartup.addListener(onStartupListener);
 browser.runtime.onInstalled.addListener(onInstalledListener);
 browser.runtime.onUpdateAvailable.addListener(onUpdateAvailableListener);
 browser.runtime.onMessage.addListener(onMessageListener);
+browser.runtime.onMessageExternal.addListener(onMessageExternalListener);
 browser.commands.onCommand.addListener(onCommandListener);
 browser.tabs.onActivated.addListener(handleReplace);
 browser.windows.onFocusChanged.addListener(handleReplace);
