@@ -32,13 +32,15 @@ export default class SessionDetailsArea extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailSearchWord: ""
+      detailSearchWord: "",
+      selectedTabsByWindow: {},
+      lastSelectedTab: null
     };
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.session.id !== this.props.session.id) {
-      this.setState({ detailSearchWord: "" });
+      this.setState({ detailSearchWord: "", selectedTabsByWindow: {}, lastSelectedTab: null });
     }
   }
 
@@ -54,6 +56,16 @@ export default class SessionDetailsArea extends Component {
 
   handleOpenClick = () => {
     const defaultBehavior = getSettings("openButtonBehavior");
+    const selectedSession = this.getSelectedSession();
+    if (selectedSession) {
+      browser.runtime.sendMessage({
+        message: "open",
+        session: selectedSession,
+        property: defaultBehavior
+      });
+      this.setState({ selectedTabsByWindow: {}, lastSelectedTab: null });
+      return;
+    }
     sendOpenMessage(this.props.session.id, defaultBehavior);
   };
 
@@ -78,6 +90,98 @@ export default class SessionDetailsArea extends Component {
     return value.split(/\s+/);
   };
 
+  getSelectedSession = () => {
+    const { session } = this.props;
+    const { selectedTabsByWindow } = this.state;
+    if (!session?.windows) return null;
+    const selectedWindowIds = Object.keys(selectedTabsByWindow).filter(
+      windowId => Object.keys(selectedTabsByWindow[windowId] || {}).length > 0
+    );
+    if (selectedWindowIds.length === 0) return null;
+
+    const selectedSession = {
+      ...session,
+      windows: {},
+      windowsInfo: {},
+      tabsNumber: 0,
+      windowsNumber: 0
+    };
+
+    for (const windowId of selectedWindowIds) {
+      const windowTabs = session.windows[windowId];
+      if (!windowTabs) continue;
+      const selectedTabIds = Object.keys(selectedTabsByWindow[windowId] || {});
+      const selectedTabs = selectedTabIds
+        .map(tabId => windowTabs[tabId])
+        .filter(Boolean)
+        .map(tab => ({ ...tab }));
+      if (selectedTabs.length === 0) continue;
+      selectedTabs.sort((a, b) => a.index - b.index);
+      if (!selectedTabs.some(tab => tab.active)) {
+        selectedTabs[0].active = true;
+      }
+      selectedSession.windows[windowId] = {};
+      selectedTabs.forEach(tab => {
+        selectedSession.windows[windowId][tab.id] = tab;
+      });
+      if (session.windowsInfo && session.windowsInfo[windowId]) {
+        selectedSession.windowsInfo[windowId] = session.windowsInfo[windowId];
+      }
+      selectedSession.tabsNumber += selectedTabs.length;
+      selectedSession.windowsNumber += 1;
+    }
+
+    if (selectedSession.tabsNumber === 0) return null;
+    return selectedSession;
+  };
+
+  handleTabSelect = (windowId, tabId, event, orderedTabIds) => {
+    const isToggle = event.ctrlKey || event.metaKey;
+    const isRange = event.shiftKey;
+    this.setState(prevState => {
+      const selectedTabsByWindow = { ...prevState.selectedTabsByWindow };
+      const windowSelection = { ...(selectedTabsByWindow[windowId] || {}) };
+
+      if (isRange && prevState.lastSelectedTab?.windowId === windowId) {
+        const start = orderedTabIds.indexOf(prevState.lastSelectedTab.tabId);
+        const end = orderedTabIds.indexOf(tabId);
+        if (start !== -1 && end !== -1) {
+          const [from, to] = start < end ? [start, end] : [end, start];
+          for (let i = from; i <= to; i++) {
+            windowSelection[orderedTabIds[i]] = true;
+          }
+        } else {
+          windowSelection[tabId] = true;
+        }
+      } else if (isToggle) {
+        if (windowSelection[tabId]) delete windowSelection[tabId];
+        else windowSelection[tabId] = true;
+      } else {
+        windowSelection[tabId] = true;
+      }
+
+      selectedTabsByWindow[windowId] = windowSelection;
+      return {
+        selectedTabsByWindow,
+        lastSelectedTab: { windowId, tabId }
+      };
+    });
+  };
+
+  handleTabToggle = (windowId, tabId) => {
+    this.setState(prevState => {
+      const selectedTabsByWindow = { ...prevState.selectedTabsByWindow };
+      const windowSelection = { ...(selectedTabsByWindow[windowId] || {}) };
+      if (windowSelection[tabId]) delete windowSelection[tabId];
+      else windowSelection[tabId] = true;
+      selectedTabsByWindow[windowId] = windowSelection;
+      return {
+        selectedTabsByWindow,
+        lastSelectedTab: { windowId, tabId }
+      };
+    });
+  };
+
   shouldComponentUpdate = (nextProps, nextState) => {
     const isChangeSession = this.props.session.id !== nextProps.session.id;
     const isUpdateSession = this.props.session.lastEditedTime !== nextProps.session.lastEditedTime;
@@ -86,13 +190,18 @@ export default class SessionDetailsArea extends Component {
     const isChangedTagList = this.props.tagList !== nextProps.tagList;
     const isChangedTracking = this.props.isTracking !== nextProps.isTracking;
     const isDetailSearchChanged = this.state.detailSearchWord !== nextState.detailSearchWord;
-    return isChangeSession || isUpdateSession || isLoadedSession || isChangedTagList || isChangedTracking || isDetailSearchChanged;
+    const isSelectionChanged = this.state.selectedTabsByWindow !== nextState.selectedTabsByWindow;
+    return isChangeSession || isUpdateSession || isLoadedSession || isChangedTagList || isChangedTracking || isDetailSearchChanged || isSelectionChanged;
   };
 
   render() {
     const { session, searchWords, isTracking, removeWindow, removeTab, openModal, closeModal, tagList, openMenu } = this.props;
     const detailSearchWords = this.getDetailSearchWords();
     const highlightWords = detailSearchWords.length > 0 ? detailSearchWords : searchWords;
+    const selectedTabsCount = Object.values(this.state.selectedTabsByWindow).reduce(
+      (count, tabs) => count + Object.keys(tabs || {}).length,
+      0
+    );
 
     if (!session.id)
       return (
@@ -146,7 +255,11 @@ export default class SessionDetailsArea extends Component {
                 title={getOpenButtonTitle()}
               >
                 <NewWindowIcon />
-                <span>{browser.i18n.getMessage("open")}</span>
+                <span>
+                  {selectedTabsCount > 0
+                    ? `${browser.i18n.getMessage("open")} (${selectedTabsCount})`
+                    : browser.i18n.getMessage("open")}
+                </span>
               </button>
               <button className="remove" onClick={this.handleRemoveClick}>
                 <DeleteIcon />
@@ -171,6 +284,9 @@ export default class SessionDetailsArea extends Component {
           removeWindow={removeWindow}
           removeTab={removeTab}
           openMenu={openMenu}
+          selectedTabsByWindow={this.state.selectedTabsByWindow}
+          handleTabSelect={this.handleTabSelect}
+          handleTabToggle={this.handleTabToggle}
         />
       </div>
     );

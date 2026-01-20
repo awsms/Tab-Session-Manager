@@ -66,19 +66,41 @@ const EditButton = props => (
 );
 
 const TabContainer = props => {
-  const { tab, windowId, allTabsNumber, searchWords, handleRemoveTab } = props;
+  const {
+    tab,
+    windowId,
+    allTabsNumber,
+    searchWords,
+    handleRemoveTab,
+    handleTabSelect,
+    handleTabToggle,
+    orderedTabIds,
+    isSelected
+  } = props;
   const handleRemoveClick = () => {
     handleRemoveTab(windowId, tab.id);
   };
 
-  const handleOpenClick = e => {
+  const handleMouseUp = e => {
+    if (e.button !== 0 && e.button !== 1) return;
+    if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      handleTabSelect(windowId, tab.id, e, orderedTabIds);
+      return;
+    }
     if (e.button === 0) openUrl(tab.url, tab.title, true);
     else if (e.button === 1) openUrl(tab.url, tab.title, false);
   };
 
   return (
-    <div className="tabContainer">
-      <button className="tabButton" onMouseUp={handleOpenClick} title={`${tab.title}\n${tab.url}`}>
+    <div className={`tabContainer ${isSelected ? "isSelected" : ""}`}>
+      <input
+        className="tabCheckbox"
+        type="checkbox"
+        checked={isSelected}
+        onChange={() => handleTabToggle(windowId, tab.id)}
+        title={browser.i18n.getMessage("selectLabel") || ""}
+      />
+      <button className="tabButton" onMouseUp={handleMouseUp} title={`${tab.title}\n${tab.url}`}>
         <FavIcon favIconUrl={tab.favIconUrl} />
         <span className="tabTitle">
           <Highlighter
@@ -140,9 +162,13 @@ class WindowContainer extends Component {
       windowsNumber,
       allTabsNumber,
       searchWords,
-      handleRemoveTab
+      handleRemoveTab,
+      handleTabSelect,
+      handleTabToggle,
+      selectedTabsByWindow
     } = this.props;
     const sortedTabs = Object.values(tabs).sort((a, b) => a.index - b.index);
+    const orderedTabIds = sortedTabs.map(tab => tab.id);
     const isIncognito = Object.values(tabs)[0].incognito;
 
     return (
@@ -187,6 +213,10 @@ class WindowContainer extends Component {
               allTabsNumber={allTabsNumber}
               searchWords={searchWords}
               handleRemoveTab={handleRemoveTab}
+              handleTabSelect={handleTabSelect}
+              handleTabToggle={handleTabToggle}
+              orderedTabIds={orderedTabIds}
+              isSelected={!!(selectedTabsByWindow?.[windowId]?.[tab.id])}
               key={tab.id}
             />
           ))}
@@ -197,7 +227,17 @@ class WindowContainer extends Component {
 }
 
 export default props => {
-  const { session, searchWords, filterWords, removeWindow, removeTab, openMenu } = props;
+  const {
+    session,
+    searchWords,
+    filterWords,
+    removeWindow,
+    removeTab,
+    openMenu,
+    selectedTabsByWindow,
+    handleTabSelect,
+    handleTabToggle
+  } = props;
   const activeFilterWords = (filterWords || []).filter(Boolean);
 
   if (!session.windows) return null;
@@ -235,6 +275,9 @@ export default props => {
             handleRemoveWindow={handleRemoveWindow}
             handleRemoveTab={handleRemoveTab}
             openMenu={openMenu}
+            selectedTabsByWindow={selectedTabsByWindow}
+            handleTabSelect={handleTabSelect}
+            handleTabToggle={handleTabToggle}
             key={`${session.id}${windowId}`}
           />
         );

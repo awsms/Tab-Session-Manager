@@ -114,6 +114,12 @@
     .tabs {
       margin-left: 32px;
       .tabContainer {
+        .tabCheckbox {
+          margin-right: 8px;
+        }
+        &.isSelected {
+          background-color: var(--highlight-bg);
+        }
         .tabButton {
           display: flex;
           align-items: center;
