@@ -31,7 +31,7 @@ export const autoSaveRegular = async () => {
   }
 };
 
-//定期保存の設定が変更されたとき、起動・インストール時に自動保存のアラームをセット
+// When periodic save settings change, set the autosave alarm on startup/install
 export async function setAutoSave(changes, areaName) {
   if (isChangeAutoSaveSettings(changes, areaName)) {
     await browser.alarms.clear("autoSaveRegular");
@@ -44,7 +44,7 @@ export async function setAutoSave(changes, areaName) {
 }
 
 function isChangeAutoSaveSettings(changes, areaName) {
-  if (changes == undefined) return true; //最初の一回
+  if (changes == undefined) return true; // First time only
   if (changes.Settings == undefined) return false;
 
   const oldValue = changes.Settings.oldValue;
@@ -62,7 +62,7 @@ const updateTemp = async () => {
     let session = await loadCurrentSession(name, ["temp"], "default");
     const tempSessions = await getSessionsByTag("temp");
 
-    //現在のセッションをtempとして保存
+    // Save current session as temp
     if (tempSessions[0]) session.id = tempSessions[0].id;
     await saveSession(session, false);
 
@@ -73,8 +73,8 @@ const updateTemp = async () => {
   }
 };
 
-// NOTE: updateTempTimerは、updateTempを呼びすぎないためのバッファとして利用している
-// ブラウザ起動時とタブの変更直後に呼び出されるので、setTimeoutの完了前にserviceWorkerが停止することはなく、問題なく実行される想定
+// NOTE: updateTempTimer buffers calls to avoid excessive updateTemp calls
+// Called at startup and right after tab changes, so the service worker should not stop before setTimeout completes
 let updateTempTimer;
 export const setUpdateTempTimer = async () => {
   await init();
@@ -212,7 +212,7 @@ async function getCurrentTabName() {
   }
 }
 
-//前回の自動保存からタブが変わっているか判定
+// Check if tabs changed since last autosave
 async function isChangedAutoSaveSession(session) {
   log.log(logDir, "isChangedAutoSaveSession()");
   const regularSessions = await getSessionsByTag("regular", ["id", "tag", "date", "windows"]);
@@ -230,6 +230,6 @@ async function isChangedAutoSaveSession(session) {
     return retArray.toString();
   };
 
-  //前回保存時とタブが異なればtrue
+  // True if tabs differ from the last save
   return tabsToString(regularSessions[0]) != tabsToString(session);
 }

@@ -38,14 +38,14 @@ export async function openSession(session, property = "openInNewWindow") {
           case "normal":
             createData.height = info.height;
             createData.width = info.width;
-          case "maximized": //最大化前のサイズを維持するためheightとwidthを含めない
+          case "maximized": // Omit height/width to preserve pre-maximized size
             createData.left = info.left;
             createData.top = info.top;
             break;
         }
       }
       let currentWindow;
-      // 開いたウィンドウがトラッキングセッションに追加されるのを防ぐ
+      // Prevent opened windows from being added to tracking sessions
       await setLastFocusedWindowId(browser.windows.WINDOW_ID_NONE);
       try {
         currentWindow = await browser.windows.create(createData);
@@ -107,7 +107,7 @@ const isEnabledOpenInReaderMode = isFirefox && browserInfo().version >= 58;
 const isEnabledTabGroups = isChrome && browserInfo().version >= 89;
 const isEnabledWindowTitle = isFirefox;
 
-//ウィンドウとタブを閉じてcurrentWindowを返す
+// Close windows/tabs and return currentWindow
 async function removeNowOpenTabs() {
   log.log(logDir, "removeNowOpenTabs()");
   const currentTabs = await browser.tabs.query({ currentWindow: true });
@@ -115,12 +115,12 @@ async function removeNowOpenTabs() {
   const allWindows = await browser.windows.getAll({ populate: true });
   for (const window of allWindows) {
     if (window.id === currentWinId) {
-      //アクティブウィンドウのタブを閉じる
+      // Close tabs in the active window
       for (const tab of window.tabs) {
         if (tab.index != 0) browser.tabs.remove(tab.id);
       }
     } else {
-      //非アクティブウィンドウを閉じる
+      // Close inactive windows
       await browser.windows.remove(window.id);
     }
   }
@@ -165,7 +165,7 @@ const setWindowTitle = (session, windowId, currentWindow) => {
 
   if (title) {
     let count = 0;
-    // タブがloading中だとtitlePrefaceのセットに失敗するため読み込めるまで繰り返す
+    // While tabs are loading, setting titlePreface can fail, so retry until loaded
     const interval = setInterval(async () => {
       browser.windows.update(currentWindow.id, { titlePreface: title });
       const tabInfo = await browser.tabs.query({ windowId: currentWindow.id, active: true });
@@ -175,7 +175,7 @@ const setWindowTitle = (session, windowId, currentWindow) => {
   }
 };
 
-//現在のウィンドウにタブを生成
+// Create tabs in the current window
 async function createTabs(session, win, currentWindow, isAddtoCurrentWindow = false) {
   log.log(logDir, "createTabs()", session, win, currentWindow, isAddtoCurrentWindow);
   let sortedTabs = [];
@@ -223,7 +223,7 @@ async function createTabs(session, win, currentWindow, isAddtoCurrentWindow = fa
 }
 
 let tabList = {};
-//実際にタブを開く
+// Actually open a tab
 function openTab(tab, currentWindow, isOpenToLastIndex = false) {
   log.log(logDir, "openTab()", tab, currentWindow, isOpenToLastIndex);
   return new Promise(async function (resolve, reject) {
@@ -241,13 +241,13 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
     if (browserInfo().name == "Firefox") {
       createOption.cookieStoreId = tab.cookieStoreId;
 
-      //現在のウィンドウと開かれるタブのプライベート情報に不整合があるときはウィンドウに従う
+      // If private info conflicts between current window and tab, follow the window
       if (currentWindow.incognito) delete createOption.cookieStoreId;
       if (!currentWindow.incognito && tab.cookieStoreId == "firefox-private")
         delete createOption.cookieStoreId;
     }
 
-    //タブをindexの最後に開く
+    // Open the tab at the end of the index
     if (isOpenToLastIndex) {
       createOption.index += currentWindow.tabs.length;
     }
@@ -273,7 +273,7 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
           }
         }
       } else {
-        // Chromeのincognitoウィンドウでは拡張機能ページを開けないため
+        // Chrome incognito windows cannot open extension pages
         if (!(isChrome && currentWindow.incognito)) {
           createOption.url = returnReplaceURL(
             "redirect",
@@ -300,7 +300,7 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
       }
     }
 
-    //about:newtabを置き換え
+    // Replace about:newtab
     if (resolvedUrl == "about:newtab") {
       createOption.url = null;
     }
@@ -335,7 +335,7 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
           log.error(logDir, "openTab() tryOpen() create", e);
           reject();
           return null;
-        }); //タブを開けなかった場合はreject
+        }); // Reject when the tab could not be opened
         if (!newTab) return;
         tabList[tab.id] = newTab.id;
         if (shouldTrackLazyRestore) {
@@ -351,7 +351,7 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
       }
     };
 
-    //Tree Style Tabに対応ならdelay
+    // Delay when Tree Style Tab support is enabled
     if (getSettings("ifSupportTst") && isEnabledOpenerTabId) setTimeout(tryOpen, openDelay);
     else tryOpen();
   });

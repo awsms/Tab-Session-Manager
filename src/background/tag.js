@@ -69,7 +69,7 @@ export async function removeTag(id, tag) {
   return await updateSession(session);
 }
 
-//指定されたタグを含むセッションを新しい順に取得 needKeysにはtag, dateが必須
+// Get sessions with the given tag in newest-first order; needKeys must include tag and date
 export async function getSessionsByTag(tag, needKeys = null) {
   log.log(logDir, "getSessionsByTag()", tag, needKeys);
   const newestSort = (a, b) => {

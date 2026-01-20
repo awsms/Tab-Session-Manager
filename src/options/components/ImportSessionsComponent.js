@@ -130,7 +130,7 @@ const isTSM = file => {
 const parseSession = (file, fileName = "unknown") => {
   try {
   for (const session of file) {
-    //ver1.9.2以前のセッションのタグを配列に変更
+    // Convert tags to array for sessions before v1.9.2
     if (!Array.isArray(session.tag)) {
       const originalTag = session.tag;
       if (typeof session.tag === "string" && typeof session.tag.split === "function") {
@@ -148,7 +148,7 @@ const parseSession = (file, fileName = "unknown") => {
         session.tag = [];
       }
     }
-    //ver1.9.2以前のセッションにUUIDを追加 タグからauto, userを削除
+    // Add UUID and remove auto/user tags for sessions before v1.9.2
     if (!session["id"]) {
       session["id"] = uuidv4();
 
@@ -156,15 +156,15 @@ const parseSession = (file, fileName = "unknown") => {
         return !(element == "user" || element == "auto");
       });
     }
-    //windowsNumberを追加
+    // Add windowsNumber
     if (session.windowsNumber === undefined) {
       session.windowsNumber = Object.keys(session.windows).length;
     }
-    //ver4.0.0以前のdateをunix msに変更
+    // Convert date to unix ms for versions before v4.0.0
     if (typeof session.date !== "number") {
       session.date = moment(session.date).valueOf();
     }
-    //ver6.0.0以前のセッションにlastEditedTimeを追加
+    // Add lastEditedTime for sessions before v6.0.0
     if (session.lastEditedTime === undefined) {
       session.lastEditedTime = session.date;
     }
@@ -381,8 +381,8 @@ export default class ImportSessionsComponent extends Component {
           importSessions: sessions
         });
       } catch (e) {
-        //セッションが巨大だとsendMessageに失敗する
-        //その場合は2分割して送信する
+        // sendMessage can fail if the session is huge
+        // In that case, send in two parts
         const midIndex = Math.floor(sessions.length / 2);
         await sendImportMessage(sessions.slice(0, midIndex));
         await sendImportMessage(sessions.slice(midIndex, sessions.length + 1));

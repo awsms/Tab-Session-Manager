@@ -7,7 +7,7 @@ const logDir = "background/import";
 export default async function importSessions(importedSessions) {
   log.log(logDir, "import()", importedSessions);
 
-  //同一セッションが存在しなければインポートする
+  // Import if the same session does not exist
   for (let importedSession of importedSessions) {
     const currentSessions = await Sessions.search("date", importedSession.date);
 

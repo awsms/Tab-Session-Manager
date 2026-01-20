@@ -140,7 +140,7 @@ export const addCurrentWindow = async (id, isTracking = false) => {
   const session = await getSessions(id);
   const currentWindow = await browser.windows.getCurrent({ populate: true });
 
-  //tabIdをユニークなIDに更新してマップに格納
+  // Update tabId to a unique ID and store in map
   let tabIdList = Object.values(session.windows).flatMap(window =>
     Object.values(window).map(tab => tab.id)
   );
@@ -155,14 +155,14 @@ export const addCurrentWindow = async (id, isTracking = false) => {
   const isWindowIdDuplicate = id => session.windows.hasOwnProperty(id);
   const windowId = generateUniqueId(currentWindow.id, isWindowIdDuplicate);
 
-  //sessionを更新
+  // Update session
   session.windows[windowId] = {};
   for (const tab of currentWindow.tabs) {
     tab.windowId = windowId;
     tab.id = updatedTabIdMap[tab.id];
     if (tab.openerTabId) tab.openerTabId = updatedTabIdMap[tab.openerTabId];
 
-    //replasedページならURLを更新
+    // If it's a replaced page, update the URL
     const replacedParams = returnReplaceParameter(tab.url);
     if (replacedParams.isReplaced) {
       tab.url = replacedParams.url;

@@ -31,8 +31,8 @@ export const updateTabGroups = async (groupId, updateProperties) => {
 };
 
 export const handleSaveTabGroupsChange = async (id, checked) => {
-  // NOTE: ChromeではtabGroupsの権限を要求する
-  // tabGroupsの権限は、Chromeでは拡張機能更新時に警告が表示されるためoptional_permissionsとしている
+  // NOTE: Chrome requires the tabGroups permission
+  // The tabGroups permission is optional in Chrome to avoid update warnings
   if (checked && browserInfo().name === "Chrome") {
     const isGranted = await browser.permissions.request({ permissions: ["tabGroups"] });
     log.log(logDir, "handleSaveTabGroupsChange", isGranted);

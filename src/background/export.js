@@ -13,7 +13,7 @@ export default async function exportSessions(id = null, folderName = "", isBacku
   if (sessions == undefined) return;
   if (!Array.isArray(sessions)) sessions = [sessions];
 
-  // セッションが多すぎるとメッセージサイズの制限やパフォーマンス上の問題を引き起こすので、セッションを分割する
+  // Split sessions to avoid message size limits and performance issues
   const sessionsStringSize = JSON.stringify(sessions).length;
   const MAX_FILE_SIZE = 32 * 1024 * 1024;
   const chunkSize = Math.ceil(sessionsStringSize / MAX_FILE_SIZE);
@@ -65,12 +65,12 @@ function generateFileName(sessions, isBackup) {
 }
 
 function replaceFolderName(folderName) {
-  const specialChars = /\:|\?|\.|"|<|>|\|/g; //使用できない特殊文字
-  const backSlash = /\\/g; //単一のバックスラッシュ
-  const spaces = /\s\s+/g; //連続したスペース
-  const slashs = /\/\/+/g; //連続したスラッシュ
-  const sandwich = /(\s\/|\/\s)+(\s|\/)?/g; //スラッシュとスペースが交互に出てくるパターン
-  const beginningEnd = /^(\s|\/)+|(\s|\/)+$/g; //先頭と末尾のスペース,スラッシュ
+  const specialChars = /\:|\?|\.|"|<|>|\|/g; // Unusable special characters
+  const backSlash = /\\/g; // Single backslash
+  const spaces = /\s\s+/g; // Consecutive spaces
+  const slashs = /\/\/+/g; // Consecutive slashes
+  const sandwich = /(\s\/|\/\s)+(\s|\/)?/g; // Alternating slash and space pattern
+  const beginningEnd = /^(\s|\/)+|(\s|\/)+$/g; // Leading/trailing spaces or slashes
 
   folderName = folderName
     .replace(specialChars, "-")
@@ -84,7 +84,7 @@ function replaceFolderName(folderName) {
   return folderName;
 }
 
-// バックアップ開始からダウンロード完了までの間にServiceWorkerは停止しない想定
+// Assume the service worker will not stop between backup start and download completion
 let downloadRecords = {};
 
 export const handleDownloadsChanged = async status => {
@@ -129,7 +129,7 @@ const createObjectURL = async sessions => {
       })
     );
   } else {
-    // ChromeのServiceWorkerではURL.createObjectURLが利用できないため、offscreen経由で生成する
+    // Chrome service workers cannot use URL.createObjectURL, so generate via offscreen
     const existingContexts = await browser.runtime.getContexts({
       contextTypes: ["OFFSCREEN_DOCUMENT"],
       documentUrls: [browser.runtime.getURL("offscreen/index.html")]

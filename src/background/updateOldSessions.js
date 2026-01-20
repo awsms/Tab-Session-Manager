@@ -12,7 +12,7 @@ export default async () => {
   log.info(logDir, "updateOldSessions()");
   if (browserInfo().name != "Chrome") await migrateSessionsFromStorage();
 
-  //DBの更新が必要な場合
+  // When a DB update is required
   //await Sessions.DBUpdate();
 
   addNewValues();
@@ -51,7 +51,7 @@ const migrateSessionsFromStorage = async () => {
   if (sessions.length == 0) return;
   log.log(logDir, "=>migrateSessionsFromStorage() sessions", sessions);
 
-  //タグを配列に変更
+  // Convert tags to an array
   const updateTags = () => {
     for (let i of sessions) {
       if (!Array.isArray(i.tag)) {
@@ -59,7 +59,7 @@ const migrateSessionsFromStorage = async () => {
       }
     }
   };
-  //UUIDを追加 タグからauto,userを削除
+  // Add UUID and remove auto/user tags
   const updateSessionId = () => {
     for (let i of sessions) {
       if (!i["id"]) {
@@ -71,7 +71,7 @@ const migrateSessionsFromStorage = async () => {
       }
     }
   };
-  //autosaveのセッション名を変更
+  // Rename autosave session names
   const updateAutoName = () => {
     for (let i in sessions) {
       if (sessions[i].tag.includes("winClose")) {

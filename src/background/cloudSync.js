@@ -10,8 +10,8 @@ import { showSyncErrorBadge, hideBadge } from "./setBadge";
 const logDir = "background/cloudSync";
 
 const getShouldRemoveFiles = (files, sessions, removedQueue) => {
-  // 削除するべきfile:
-  // filesのうち removedQueueに含まれる かつ sessionsに存在しない
+  // Files to delete:
+  // In files: those in removedQueue and not present in sessions
   const shouldRemoveFiles = files
     .filter(file => removedQueue.includes(file.name))
     .filter(file => sessions.every(session => session.id !== file.name));
@@ -29,9 +29,9 @@ const getShouldDownloadFiles = (files, sessions, shouldRemoveFiles) => {
     );
   }
 
-  // ダウンロードするべきfile:
-  // filesのうち sessionsに存在しない または lastEditedTimeが更新されている
-  // かつ shouldRemovedFilesに含まれない
+  // Files to download:
+  // In files: not present in sessions or with newer lastEditedTime
+  // And not included in shouldRemovedFiles
   const shouldDownloadFiles = files
     .filter(file => {
       const sameIdSession = sessions.find(session => session.id === file.name);
@@ -54,8 +54,8 @@ const getShouldUploadSessions = (files, sessions, lastSyncTime) => {
     );
   }
 
-  // アップロードするべきsession:
-  // lastSyncedTime以降に編集されたsessionのうち filesに存在しない または filesに存在するものよりlastEditedTimeが新しい
+  // Sessions to upload:
+  // Sessions edited after lastSyncedTime that are missing in files or newer than files
   const shouldUploadSessions = sessions
     .filter(session => session.lastEditedTime > lastSyncTime)
     .filter(session => {
@@ -169,7 +169,7 @@ export const syncCloudAuto = () => {
   const enabledAutoSync = getSettings("enabledAutoSync");
   if (!(isLoggedIn && enabledAutoSync)) return;
 
-  // 起動時またはセッション保存時に呼び出されるため、10秒以内にServiceWorkerが停止することはない想定
+  // Called on startup or session save, so the service worker should not stop within 10 seconds
   clearTimeout(autoSyncTimer);
   autoSyncTimer = setTimeout(async () => {
     try {

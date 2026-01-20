@@ -34,11 +34,11 @@ export const deleteTab = (session, winId, tabId) => {
 
   const window = session.windows[winId];
   for (const tab in window) {
-    //openerTabIdを削除
+    // Remove openerTabId
     if (window[tab].openerTabId != undefined) {
       if (window[tab].openerTabId == tabId) delete window[tab].openerTabId;
     }
-    //indexを変更
+    // Update index
     if (window[tab].index > deletedTabIndex) window[tab].index--;
   }
 

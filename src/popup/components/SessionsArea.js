@@ -32,7 +32,7 @@ const alphabeticallySort = (a, b) => {
   else if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
 };
 const namelessSort = (a, b) => {
-  //名前の無いセッションを最後に，同じ名前なら新しい順に
+  // Place unnamed sessions last; for same names, sort newest first
   if (a.name == "" && b.name != "") return 1;
   else if (a.name != "" && b.name == "") return -1;
   else if (a.name == b.name) return newestSort(a, b);

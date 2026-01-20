@@ -16,7 +16,7 @@ export default async (id = null, needKeys = null) => {
     });
   }
 
-  //該当するセッションが存在しない時
-  //idを指定:undefined, 非指定:[] を返す
+  // When the requested session does not exist
+  // If id is specified, return undefined; otherwise return []
   return sessions;
 };

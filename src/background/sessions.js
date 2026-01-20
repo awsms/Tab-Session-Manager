@@ -7,7 +7,7 @@ let DB;
 export default {
   init: () => {
     log.log(logDir, "init()");
-    // NOTE: ChromeのService Workerからは呼び出せないが、unlimitedStorage権限があるため削除されることはない
+    // NOTE: Not callable from Chrome service worker, but unlimitedStorage prevents eviction
     if (navigator.storage.persist) navigator.storage.persist();
     const request = indexedDB.open("sessions", 1);
 

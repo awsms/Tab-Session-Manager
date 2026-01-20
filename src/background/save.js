@@ -46,7 +46,7 @@ export async function loadCurrentSession(name, tag, property) {
 
   const tabs = await browser.tabs.query(queryInfo);
   for (let tab of tabs) {
-    //プライベートタブを無視
+    // Ignore private tabs
     if (!getSettings("ifSavePrivateWindow")) {
       if (tab.incognito) {
         continue;
@@ -55,7 +55,7 @@ export async function loadCurrentSession(name, tag, property) {
 
     if (session.windows[tab.windowId] == undefined) session.windows[tab.windowId] = {};
 
-    //replacedPageなら元のページを保存
+    // If it's a replaced page, save the original URL
     const parameter = returnReplaceParameter(tab.url);
     if (parameter.isReplaced) {
       tab.url = parameter.url;
@@ -82,7 +82,7 @@ export async function loadCurrentSession(name, tag, property) {
   }
 
   if (isEnabledTabGroups && getSettings("saveTabGroupsV2")) {
-    // ポップアップやPWAにはタブ自体が存在しないので、normalタイプのウィンドウのみクエリする
+    // Popups and PWAs do not have tabs, so query only normal windows
     const filteredWindows = Object.values(session.windowsInfo).filter(
       window => window.type === "normal"
     );

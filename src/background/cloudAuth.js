@@ -62,9 +62,9 @@ const getAuthCode = async (email = "", shouldShowLogin = true) => {
     .launchWebAuthFlow({
       url: authURL,
       interactive: shouldShowLogin
-      // interactiveについて
-      // ユーザが手動操作したとき: true 必要に応じてログインプロンプトが表示される
-      // 自動同期時: false 手動ログインが必要な場合はサイレントに終了しエラーを返す
+      // About the interactive flag
+      // When user initiates: true; may show a login prompt
+      // During auto sync: false; if manual login is required, exit silently and return an error
     })
     .catch(async e => {
       log.error(logDir, "getAuthCode()", e);

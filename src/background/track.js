@@ -93,12 +93,12 @@ const waitLock = async () => {
 };
 
 export const startTracking = async (sessionId, originalWindowId, openedWindowId) => {
-  // トラッキングセッションに複数ウィンドウが含まれる場合、trackingInfoの取得と更新が競合しすべて反映されないためロックを取る
+  // Lock when a tracking session has multiple windows to avoid trackingInfo update conflicts
   if (_isLocked) await waitLock();
   _isLocked = true;
 
   let { trackingWindows, isTracking } = await getTrackingInfo();
-  // 同一のトラッキングセッションが複数開かれた際に、最後に開かれたもののみ追跡する
+  // If the same tracking session is opened multiple times, track only the last one
   trackingWindows = trackingWindows.filter(
     x => x.openedWindowId != originalWindowId && x.originalWindowId != originalWindowId
   );
@@ -126,7 +126,7 @@ export const startTracking = async (sessionId, originalWindowId, openedWindowId)
 const handleCreateWindow = async window => {
   if (!getSettings("shouldTrackNewWindow")) return;
 
-  // trackingWindowsから開かれたウィンドウのみをトラッキングセッションに追加する
+  // Add only windows opened from trackingWindows to the tracking session
   const lastFocusedWindowId = await getLastFocusedWindowId();
   const { trackingWindows } = await getTrackingInfo();
   const focusedWindow = trackingWindows.find(

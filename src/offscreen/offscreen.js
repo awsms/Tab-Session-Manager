@@ -36,7 +36,7 @@ const onMessageListener = async (request, sender, sendResponse) => {
       return revokeObjectURL(request.downloadUrl);
   }
 
-  // backgroundやpopup宛のメッセージとの混信を防ぐ
+  // Avoid mixing with background or popup messages
   const empty = new Promise(resolve => {
     setTimeout(() => {
       return resolve("");
