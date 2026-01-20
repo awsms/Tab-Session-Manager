@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import browser from "webextension-polyfill";
 import moment from "moment";
 import { getSettings } from "src/settings/settings";
-import { sendOpenMessage } from "../actions/controlSessions";
+import { sendOpenMessage, sendSessionUpdateMessage } from "../actions/controlSessions";
 import generateWindowsInfo from "../actions/generateWindowsInfo";
+import { deleteTab } from "../../common/editSessions.js";
 import NameContainer from "./NameContainer";
 import TagsContainer from "./TagsContainer";
 import DetailsContainer from "./DetailsContainer";
@@ -26,6 +27,26 @@ const getOpenButtonTitle = () => {
     default:
       return "";
   }
+};
+
+const getTabSearchText = tab => {
+  const title = (tab.title || "").toLowerCase();
+  const urlText = (tab.url || "").toLowerCase();
+  let host = "";
+  if (tab.url) {
+    try {
+      host = new URL(tab.url).hostname.toLowerCase();
+    } catch (e) {
+      host = "";
+    }
+  }
+  return `${title} ${urlText} ${host}`;
+};
+
+const matchesTabSearch = (tab, searchWords) => {
+  if (!searchWords || searchWords.length === 0) return true;
+  const haystack = getTabSearchText(tab);
+  return searchWords.every(word => haystack.includes(word));
 };
 
 export default class SessionDetailsArea extends Component {
@@ -76,8 +97,40 @@ export default class SessionDetailsArea extends Component {
     e.preventDefault();
   };
 
-  handleRemoveClick = () => {
-    this.props.removeSession(this.props.session.id);
+  handleRemoveClick = async () => {
+    const { session, removeSession } = this.props;
+    const selectedTabsCount = this.getSelectedTabsCount();
+    if (selectedTabsCount === 0) {
+      removeSession(session.id);
+      return;
+    }
+    if (selectedTabsCount >= session.tabsNumber) {
+      removeSession(session.id);
+      this.setState({ selectedTabsByWindow: {}, lastSelectedTab: null });
+      return;
+    }
+
+    let editedSession = session;
+    const selectedTabsByWindow = this.state.selectedTabsByWindow;
+    for (const windowId of Object.keys(selectedTabsByWindow)) {
+      const selectedTabIds = Object.keys(selectedTabsByWindow[windowId] || {});
+      if (selectedTabIds.length === 0) continue;
+      const selectedTabs = selectedTabIds
+        .map(tabId => session.windows?.[windowId]?.[tabId])
+        .filter(Boolean)
+        .sort((a, b) => b.index - a.index);
+      for (const tab of selectedTabs) {
+        try {
+          editedSession = await Promise.resolve(deleteTab(editedSession, windowId, tab.id));
+        } catch (e) {
+          removeSession(session.id);
+          return;
+        }
+      }
+    }
+
+    await sendSessionUpdateMessage(editedSession);
+    this.setState({ selectedTabsByWindow: {}, lastSelectedTab: null });
   };
 
   handleDetailSearchChange = e => {
@@ -88,6 +141,66 @@ export default class SessionDetailsArea extends Component {
     const value = this.state.detailSearchWord.trim().toLowerCase();
     if (!value) return [];
     return value.split(/\s+/);
+  };
+
+  getSelectedTabsCount = () => {
+    return Object.values(this.state.selectedTabsByWindow).reduce(
+      (count, tabs) => count + Object.keys(tabs || {}).length,
+      0
+    );
+  };
+
+  getVisibleTabIdsByWindow = filterWords => {
+    const { session } = this.props;
+    if (!session?.windows) return {};
+    const visibleTabsByWindow = {};
+    for (const windowId of Object.keys(session.windows)) {
+      const tabs = Object.values(session.windows[windowId]);
+      const filteredTabs = filterWords.length === 0
+        ? tabs
+        : tabs.filter(tab => matchesTabSearch(tab, filterWords));
+      if (filteredTabs.length > 0) {
+        visibleTabsByWindow[windowId] = filteredTabs.map(tab => tab.id);
+      }
+    }
+    return visibleTabsByWindow;
+  };
+
+  handleSelectAllToggle = filterWords => {
+    const visibleTabsByWindow = this.getVisibleTabIdsByWindow(filterWords);
+    this.setState(prevState => {
+      const selectedTabsByWindow = { ...prevState.selectedTabsByWindow };
+      let allVisibleSelected = true;
+      for (const windowId of Object.keys(visibleTabsByWindow)) {
+        for (const tabId of visibleTabsByWindow[windowId]) {
+          if (!selectedTabsByWindow?.[windowId]?.[tabId]) {
+            allVisibleSelected = false;
+            break;
+          }
+        }
+        if (!allVisibleSelected) break;
+      }
+
+      if (allVisibleSelected) {
+        for (const windowId of Object.keys(visibleTabsByWindow)) {
+          const windowSelection = { ...(selectedTabsByWindow[windowId] || {}) };
+          for (const tabId of visibleTabsByWindow[windowId]) {
+            delete windowSelection[tabId];
+          }
+          selectedTabsByWindow[windowId] = windowSelection;
+        }
+      } else {
+        for (const windowId of Object.keys(visibleTabsByWindow)) {
+          const windowSelection = { ...(selectedTabsByWindow[windowId] || {}) };
+          for (const tabId of visibleTabsByWindow[windowId]) {
+            windowSelection[tabId] = true;
+          }
+          selectedTabsByWindow[windowId] = windowSelection;
+        }
+      }
+
+      return { selectedTabsByWindow };
+    });
   };
 
   getSelectedSession = () => {
@@ -198,10 +311,17 @@ export default class SessionDetailsArea extends Component {
     const { session, searchWords, isTracking, removeWindow, removeTab, openModal, closeModal, tagList, openMenu } = this.props;
     const detailSearchWords = this.getDetailSearchWords();
     const highlightWords = detailSearchWords.length > 0 ? detailSearchWords : searchWords;
-    const selectedTabsCount = Object.values(this.state.selectedTabsByWindow).reduce(
-      (count, tabs) => count + Object.keys(tabs || {}).length,
+    const selectedTabsCount = this.getSelectedTabsCount();
+    const visibleTabsByWindow = this.getVisibleTabIdsByWindow(detailSearchWords);
+    const visibleTabsCount = Object.values(visibleTabsByWindow).reduce(
+      (count, tabs) => count + tabs.length,
       0
     );
+    const visibleSelectedCount = Object.keys(visibleTabsByWindow).reduce((count, windowId) => {
+      const selected = this.state.selectedTabsByWindow?.[windowId] || {};
+      return count + visibleTabsByWindow[windowId].filter(tabId => selected[tabId]).length;
+    }, 0);
+    const allVisibleSelected = visibleTabsCount > 0 && visibleSelectedCount === visibleTabsCount;
 
     if (!session.id)
       return (
@@ -263,7 +383,11 @@ export default class SessionDetailsArea extends Component {
               </button>
               <button className="remove" onClick={this.handleRemoveClick}>
                 <DeleteIcon />
-                <span>{browser.i18n.getMessage("remove")}</span>
+                <span>
+                  {selectedTabsCount > 0
+                    ? `${browser.i18n.getMessage("remove")} (${selectedTabsCount})`
+                    : browser.i18n.getMessage("remove")}
+                </span>
               </button>
             </div>
           </div>
@@ -275,6 +399,13 @@ export default class SessionDetailsArea extends Component {
               placeholder={browser.i18n.getMessage("search")}
               title={browser.i18n.getMessage("search")}
             />
+            <button
+              className="selectAllButton"
+              onClick={() => this.handleSelectAllToggle(detailSearchWords)}
+              disabled={visibleTabsCount === 0}
+            >
+              {allVisibleSelected ? "Clear" : "Select all"}
+            </button>
           </div>
         </div>
         <DetailsContainer

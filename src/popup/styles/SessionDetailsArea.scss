@@ -97,11 +97,31 @@
       margin-top: 6px;
     }
     .detailsSearch.inputForm {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       height: 26px;
     }
     .detailsSearch input {
       padding-left: 8px;
       border-radius: 2px;
+    }
+    .detailsSearch .selectAllButton {
+      padding: 0 8px;
+      height: 26px;
+      border: 1px solid var(--line);
+      background-color: var(--line);
+      border-radius: 2px;
+      color: var(--main-text);
+      white-space: nowrap;
+    }
+    .detailsSearch .selectAllButton:hover,
+    .detailsSearch .selectAllButton:focus {
+      background-color: var(--line2);
+    }
+    .detailsSearch .selectAllButton:disabled {
+      opacity: 0.5;
+      cursor: default;
     }
   }
 
