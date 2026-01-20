@@ -28,7 +28,6 @@ import SaveArea from "./SaveArea";
 import Menu from "./Menu";
 import Modal from "./Modal";
 import Error from "./Error";
-import DonationMessage from "./DonationMessage";
 import "../styles/PopupPage.scss";
 import { makeSearchInfo } from "../../common/makeSearchInfo";
 
@@ -160,9 +159,6 @@ export default class PopupPage extends Component {
       setSettings("isShowUpdated", false);
     }
 
-    if (Math.random() < 0.03) {
-      this.openModal(browser.i18n.getMessage("donationLabel"), <DonationMessage />);
-    }
   };
 
   calcNeedsSync = sessions => {

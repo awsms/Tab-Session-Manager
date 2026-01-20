@@ -63,13 +63,6 @@
       }
     }
 
-    .heartButton {
-      &:hover svg,
-      &:focus svg {
-        fill: var(--confirm);
-      }
-    }
-
     .cloudSyncButton {
       position: relative;
       svg {
