@@ -26,7 +26,9 @@ export default [
             captions: ["isUseDiscardedCaptionLabel", "isUseDiscardedCaption2Label"],
             type: "checkbox",
             default: true,
-            shouldShow: browserInfo().name == "Firefox" && browserInfo().version >= 63
+            shouldShow:
+              (browserInfo().name == "Firefox" && browserInfo().version >= 63) ||
+              (browserInfo().name == "Chrome" && browserInfo().version >= 54)
           }
         ]
       },

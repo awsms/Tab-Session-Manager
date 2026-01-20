@@ -60,6 +60,9 @@ export async function loadCurrentSession(name, tag, property) {
     if (parameter.isReplaced) {
       tab.url = parameter.url;
     }
+    if (tab.url === "about:blank" && tab.pendingUrl) {
+      tab.url = tab.pendingUrl;
+    }
 
     // Compress favicon url
     if (getSettings("compressFaviconUrl") && tab?.favIconUrl?.startsWith("data:image")) {

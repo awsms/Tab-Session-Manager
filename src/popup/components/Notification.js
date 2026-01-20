@@ -6,6 +6,7 @@ import "../styles/Notification.scss";
 export default class Notification extends Component {
   constructor(props) {
     super(props);
+    this.nodeRef = React.createRef();
     this.state = {
       notification: {
         key: "0",
@@ -46,8 +47,12 @@ export default class Notification extends Component {
       <div id="notificationArea">
         <TransitionGroup>
           {this.state.isOpen && (
-            <CSSTransition key={notification.key} timeout={notification.duration || 10000}>
-              <div className="notification" data-type={notification.type}>
+            <CSSTransition
+              key={notification.key}
+              timeout={notification.duration || 10000}
+              nodeRef={this.nodeRef}
+            >
+              <div ref={this.nodeRef} className="notification" data-type={notification.type}>
                 <span className="message">{notification.message}</span>
                 <div className="buttons">
                   {shouldShowButton && (

@@ -41,6 +41,7 @@ import { getsearchInfo } from "./search";
 import { recordChange, undo, redo, updateUndoStatus } from "./undo";
 import { compressAllSessions } from "./compressAllSessions";
 import { startTracking, endTrackingByWindowDelete, updateTrackingStatus } from "./track";
+import { initLazyRestoreListeners } from "./lazyRestore";
 
 const logDir = "background/background";
 const allowedExternalIds = new Set(["aajlcoiaogpknhgninhopncaldipjdnp"]);
@@ -83,6 +84,7 @@ export const init = async () => {
   updateLogLevel();
   log.info(logDir, "init()");
   await Sessions.init();
+  initLazyRestoreListeners();
   IsInit = true;
 };
 

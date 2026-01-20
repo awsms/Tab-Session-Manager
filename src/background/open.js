@@ -3,7 +3,8 @@ import browserInfo from "browser-info";
 import log from "loglevel";
 import { getSettings } from "src/settings/settings";
 import { returnReplaceURL, replacePage } from "./replace.js";
-import { updateTabGroups, isEnabledTabGroups } from "../common/tabGroups";
+import { registerLazyRestoreTab } from "./lazyRestore";
+import { updateTabGroups } from "../common/tabGroups";
 import { isTrackingSession, setLastFocusedWindowId, startTracking } from "./track.js";
 
 const logDir = "background/open";
@@ -96,12 +97,15 @@ export async function openSession(session, property = "openInNewWindow") {
   }
 }
 
+const isFirefox = browserInfo().name == "Firefox";
+const isChrome = browserInfo().name == "Chrome";
 const isEnabledOpenerTabId =
-  (browserInfo().name == "Firefox" && browserInfo().version >= 57) ||
-  (browserInfo().name == "Chrome" && browserInfo().version >= 18);
-const isEnabledDiscarded = browserInfo().name == "Firefox" && browserInfo().version >= 63;
-const isEnabledOpenInReaderMode = browserInfo().name == "Firefox" && browserInfo().version >= 58;
-const isEnabledWindowTitle = browserInfo().name == "Firefox";
+  (isFirefox && browserInfo().version >= 57) || (isChrome && browserInfo().version >= 18);
+const isEnabledDiscarded =
+  (isFirefox && browserInfo().version >= 63) || (isChrome && browserInfo().version >= 54);
+const isEnabledOpenInReaderMode = isFirefox && browserInfo().version >= 58;
+const isEnabledTabGroups = isChrome && browserInfo().version >= 89;
+const isEnabledWindowTitle = isFirefox;
 
 //ウィンドウとタブを閉じてcurrentWindowを返す
 async function removeNowOpenTabs() {
@@ -223,11 +227,13 @@ let tabList = {};
 function openTab(tab, currentWindow, isOpenToLastIndex = false) {
   log.log(logDir, "openTab()", tab, currentWindow, isOpenToLastIndex);
   return new Promise(async function (resolve, reject) {
+    const resolvedUrl =
+      tab.url === "about:blank" && tab.pendingUrl ? tab.pendingUrl : tab.url;
     let createOption = {
       active: tab.active,
       index: tab.index,
       pinned: tab.pinned,
-      url: tab.url,
+      url: resolvedUrl,
       windowId: currentWindow.id
     };
 
@@ -253,33 +259,49 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
       openDelay = getSettings("tstDelay");
     }
 
+    const isHttpUrl = resolvedUrl.startsWith("http://") || resolvedUrl.startsWith("https://");
     //Lazy loading
+    let shouldTrackLazyRestore = false;
     if (getSettings("ifLazyLoading")) {
       if (getSettings("isUseDiscarded") && isEnabledDiscarded) {
-        if (!createOption.active && !createOption.pinned) {
-          createOption.discarded = true;
-          createOption.title = tab.title;
+        if (!createOption.active && !createOption.pinned && isHttpUrl) {
+          if (isFirefox) {
+            createOption.discarded = true;
+            createOption.title = tab.title;
+          } else if (isChrome) {
+            shouldTrackLazyRestore = true;
+          }
         }
       } else {
         // Chromeのincognitoウィンドウでは拡張機能ページを開けないため
-        if (!(browserInfo().name === "Chrome" && currentWindow.incognito)) {
-          createOption.url = returnReplaceURL("redirect", tab.title, tab.url, tab.favIconUrl);
+        if (!(isChrome && currentWindow.incognito)) {
+          createOption.url = returnReplaceURL(
+            "redirect",
+            tab.title,
+            resolvedUrl,
+            tab.favIconUrl
+          );
         }
       }
     }
 
     //Reader mode
-    if (tab.url.startsWith("about:reader?url=")) {
+    if (resolvedUrl.startsWith("about:reader?url=")) {
       if (getSettings("ifLazyLoading")) {
-        createOption.url = returnReplaceURL("redirect", tab.title, tab.url, tab.favIconUrl);
+        createOption.url = returnReplaceURL(
+          "redirect",
+          tab.title,
+          resolvedUrl,
+          tab.favIconUrl
+        );
       } else {
         if (isEnabledOpenInReaderMode) createOption.openInReaderMode = true;
-        createOption.url = decodeURIComponent(tab.url.slice(17));
+        createOption.url = decodeURIComponent(resolvedUrl.slice(17));
       }
     }
 
     //about:newtabを置き換え
-    if (tab.url == "about:newtab") {
+    if (resolvedUrl == "about:newtab") {
       createOption.url = null;
     }
 
@@ -288,17 +310,43 @@ function openTab(tab, currentWindow, isOpenToLastIndex = false) {
       try {
         const newTab = await browser.tabs.create(createOption);
         tabList[tab.id] = newTab.id;
+        if (shouldTrackLazyRestore) {
+          registerLazyRestoreTab(newTab.id, {
+            targetUrl: resolvedUrl,
+            windowId: currentWindow.id,
+            pinned: tab.pinned,
+            createdAt: Date.now(),
+            discardState: "created"
+          });
+        }
         resolve();
       } catch (e) {
         log.warn(logDir, "openTab() tryOpen() replace", e);
         const isRemovedContainer = e.message.startsWith("No cookie store exists with ID");
         if (isRemovedContainer) delete createOption.cookieStoreId;
-        else createOption.url = returnReplaceURL("open_faild", tab.title, tab.url, tab.favIconUrl);
+        else
+          createOption.url = returnReplaceURL(
+            "open_faild",
+            tab.title,
+            resolvedUrl,
+            tab.favIconUrl
+          );
         const newTab = await browser.tabs.create(createOption).catch(e => {
           log.error(logDir, "openTab() tryOpen() create", e);
           reject();
+          return null;
         }); //タブを開けなかった場合はreject
+        if (!newTab) return;
         tabList[tab.id] = newTab.id;
+        if (shouldTrackLazyRestore) {
+          registerLazyRestoreTab(newTab.id, {
+            targetUrl: resolvedUrl,
+            windowId: currentWindow.id,
+            pinned: tab.pinned,
+            createdAt: Date.now(),
+            discardState: "created"
+          });
+        }
         resolve();
       }
     };
