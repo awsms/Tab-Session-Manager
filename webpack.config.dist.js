@@ -16,7 +16,6 @@ const {
 } = require("./webpack.utils");
 const path = require("path");
 const config = require("./config.json");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const extVersion = require("./src/manifest.json").version;
@@ -70,13 +69,15 @@ const generalConfig = {
 module.exports = [
   {
     ...generalConfig,
-    output: getOutput("chrome", config.tempDirectory),
+    output: {
+      ...getOutput("chrome", config.tempDirectory),
+      clean: true
+    },
     entry: getEntry(config.chromePath),
     optimization: {
       minimize: true
     },
     plugins: [
-      new CleanWebpackPlugin(["dist", "temp"]),
       ...getMiniCssExtractPlugin(),
       ...getHTMLPlugins("chrome", config.tempDirectory, config.chromePath),
       ...getCopyPlugins("chrome", config.tempDirectory, config.chromePath),
@@ -87,12 +88,14 @@ module.exports = [
   {
     ...generalConfig,
     entry: getEntry(config.firefoxPath),
-    output: getOutput("firefox", config.tempDirectory),
+    output: {
+      ...getOutput("firefox", config.tempDirectory),
+      clean: true
+    },
     optimization: {
       minimize: true
     },
     plugins: [
-      new CleanWebpackPlugin(["dist", "temp"]),
       ...getMiniCssExtractPlugin(),
       ...getHTMLPlugins("firefox", config.tempDirectory, config.firefoxPath),
       ...getFirefoxCopyPlugins("firefox", config.tempDirectory, config.firefoxPath),
@@ -103,7 +106,10 @@ module.exports = [
   {
     ...generalConfig,
     entry: { other: path.resolve(__dirname, `src/common/log.js`) },
-    output: getOutput("copiedSource", config.tempDirectory),
+    output: {
+      ...getOutput("copiedSource", config.tempDirectory),
+      clean: true
+    },
     plugins: [
       new CopyWebpackPlugin({
         patterns: [
