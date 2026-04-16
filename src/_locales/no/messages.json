@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Lagra og gjenopprett vindauger og faner. Støttar òg automatisk lagring."
   },
-  "donateWithPaypalLabel": {
-    "message": "Doner med PayPal"
-  },
-  "donateLabel": {
-    "message": "Doner"
-  },
   "openSessionListInTabLabel": {
     "message": "Opna øktlista i fane"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Tilbakestill"
   },
-  "backersLabel": {
-    "message": "Støttespelarar"
-  },
   "LicenseLabel": {
     "message": "Lisens"
-  },
-  "donationLabel": {
-    "message": "Doner gjerne ein slant"
-  },
-  "donationCaptionLabel": {
-    "message": "Takk for at du bruker Tab Session Manager.<br>Støtta din er ei stor oppmuntring for meg, mens eg fortsett å utvikla utvidinga.<br>Viss du likar Tab Session Manager, vil eg verkeleg settja pris på ein donasjon."
-  },
-  "amazonTitleLabel": {
-    "message": "Elektronisk gåvekort frå «amazon.co.jp»"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsorar"
   },
   "addonPageLabel": {
     "message": "Tilleggsside"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Økt"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/nn-NO/firefox/addon/tab-session-manager/?src=optionpage"

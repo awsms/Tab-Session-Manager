@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "שמור ושחזר את מצב החלונות וכרטיסיות. זה גם תומך בשמירה אוטומטית."
   },
-  "donateWithPaypalLabel": {
-    "message": "תרום באמצעות PayPal"
-  },
-  "donateLabel": {
-    "message": "תרום"
-  },
   "openSessionListInTabLabel": {
     "message": "פתח רשימת פעילויות בכרטיסיה"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "אפס"
   },
-  "backersLabel": {
-    "message": "תומכים"
-  },
   "LicenseLabel": {
     "message": "רישיון"
-  },
-  "donationLabel": {
-    "message": "אנא תרום"
-  },
-  "donationCaptionLabel": {
-    "message": "תודה לך על השימוש ב-Tab Session Manager.<br>התמיכה שלך תהווה עידוד גדול, בעודי ממשיך לפתח את התוסף.<br>אם אתה אוהב את Tab Session Manager, אשמח אם תשקול לתרום."
-  },
-  "amazonTitleLabel": {
-    "message": "כרטיסי amazon.co.jp eGift"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "עמוד תוסף"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "פעילות"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=he_IL"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/he/firefox/addon/tab-session-manager/?src=optionpage"

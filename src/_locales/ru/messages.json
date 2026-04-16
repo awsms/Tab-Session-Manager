@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Менеджер сессий позволяет сохранять и восстанавливать состояние окон и вкладок. Поддерживает автоматические сохранения."
   },
-  "donateWithPaypalLabel": {
-    "message": "Пожертвовать через PayPal"
-  },
-  "donateLabel": {
-    "message": "Поддержать"
-  },
   "openSessionListInTabLabel": {
     "message": "Открыть список сессий в отдельной вкладке"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Сброс"
   },
-  "backersLabel": {
-    "message": "При поддержке"
-  },
   "LicenseLabel": {
     "message": "Лицензия"
-  },
-  "donationLabel": {
-    "message": "Пожалуйста, поблагодарите автора"
-  },
-  "donationCaptionLabel": {
-    "message": "Спасибо, что используете Tab Session Manager.<br>Ваша поддержка будет замечательным стимулом к продолжению разработки этого дополнения.<br>Если вам понравился Tab Session Manager, я буду очень благодарен вашим пожертвованиям."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Спонсоры"
   },
   "addonPageLabel": {
     "message": "Страница дополнения"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Сессия"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/ru/firefox/addon/tab-session-manager/?src=optionpage"

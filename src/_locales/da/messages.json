@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Save and restore the state of windows and tabs. It also supports automatic saving."
   },
-  "donateWithPaypalLabel": {
-    "message": "Donate with PayPal"
-  },
-  "donateLabel": {
-    "message": "Donate"
-  },
   "openSessionListInTabLabel": {
     "message": "Open session list in tab"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Reset"
   },
-  "backersLabel": {
-    "message": "Backers"
-  },
   "LicenseLabel": {
     "message": "License"
-  },
-  "donationLabel": {
-    "message": "Please make a donation"
-  },
-  "donationCaptionLabel": {
-    "message": "Thank you for using Tab Session Manager.<br>Your support will be a big encouragement, as I continue to develop the add-on.<br>If you like Tab Session Manager, I would be pleased if you could consider donating."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "Add-on page"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Session"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

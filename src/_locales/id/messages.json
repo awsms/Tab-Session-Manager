@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Anda bisa menyimpan dan mengembalikan tab dan jendela yang terbuka. Juga mendukung penghematan otomatis."
   },
-  "donateWithPaypalLabel": {
-    "message": "Donate with PayPal"
-  },
-  "donateLabel": {
-    "message": "Donate"
-  },
   "openSessionListInTabLabel": {
     "message": "Open session list in tab"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Reset"
   },
-  "backersLabel": {
-    "message": "Backers"
-  },
   "LicenseLabel": {
     "message": "Lisensi"
-  },
-  "donationLabel": {
-    "message": "Silakan memberi donasi"
-  },
-  "donationCaptionLabel": {
-    "message": "Terima kasih telah menggunakan Tab Session Manager.<br>Dukunganmu akan menjadi dorongan besar, karena saya akan terus mengembangkan pengaya ini.<br>Jika Anda menyukai Tab Session Manager, saya akan sangat menghargai jika Anda bisa mempertimbangkan memberikan sumbangan."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp Kartu eGift"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "Add-on page"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Sesi"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

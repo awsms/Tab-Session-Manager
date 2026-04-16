@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Запазване и възстановяване състоянието на прозорци и раздели. Поддържа се и автоматично запазване."
   },
-  "donateWithPaypalLabel": {
-    "message": "Дарение чрез PayPal"
-  },
-  "donateLabel": {
-    "message": "Дарение"
-  },
   "openSessionListInTabLabel": {
     "message": "Отваряне на списъка със сесии в раздел"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Нулиране"
   },
-  "backersLabel": {
-    "message": "Поддръжници"
-  },
   "LicenseLabel": {
     "message": "Лиценз"
-  },
-  "donationLabel": {
-    "message": "Моля, направете дарение"
-  },
-  "donationCaptionLabel": {
-    "message": "Благодаря Ви, че използвате Tab Session Manager.<br>Вашата подкрепа би означавала много за мен, докато продължавам да разработвам добавката.<br>Ако харесвате Tab Session Manager, бих се радвал да помислите за дарение."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Спонсори"
   },
   "addonPageLabel": {
     "message": "Страница на добавката"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Сесия"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

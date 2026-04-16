@@ -433,7 +433,7 @@ export default class ImportSessionsComponent extends Component {
             - Session Buddy (.json)<br />
             - Session Manager (.session)<br />
             - Firefox Session Store Backup (.jsonlz4 .baklz4)<br />
-            <a href="https://github.com/sienori/Tab-Session-Manager/wiki/Q&A:-How-to-import-sessions-from-other-extensions"
+            <a href="https://github.com/awsms/Tab-Session-Manager/wiki/Q&A:-How-to-import-sessions-from-other-extensions"
               target="_blank">{browser.i18n.getMessage("importCaptionLabel3")} </a>
           </p>}
           type="file"

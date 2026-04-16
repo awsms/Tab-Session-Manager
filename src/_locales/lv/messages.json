@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Ļauj saglabāt un atjaunot logus un to cilņu stāvokli. Kā arī atbalsta automātisko saglabāšanu."
   },
-  "donateWithPaypalLabel": {
-    "message": "Ziedot izmantojot PayPal"
-  },
-  "donateLabel": {
-    "message": "Ziedot"
-  },
   "openSessionListInTabLabel": {
     "message": "Atvērt sesiju sarakstu cilnē"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Atiestatīt"
   },
-  "backersLabel": {
-    "message": "Atbalstītāji"
-  },
   "LicenseLabel": {
     "message": "Licence"
-  },
-  "donationLabel": {
-    "message": "Lūdzu, ziedojiet"
-  },
-  "donationCaptionLabel": {
-    "message": "Paldies, ka izmantojat Tab Session Manager.<br>Jūsu atbalsts būs liels iedrošinājums, lai es turpinātu uzlabot papildinājumu.<br>Ja jums patīk un izmantojat Tab Session Manager ikdienā, es priecātos, ja jūs apsvērtu iespēju ziedot."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp e-Dāvanu kartes"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsori"
   },
   "addonPageLabel": {
     "message": "Papildinājuma vietne"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Sesija"
-  },
-  "amazonUrl": {
-    "message": "https://amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/lv/firefox/addon/tab-session-manager/?src=optionpage"

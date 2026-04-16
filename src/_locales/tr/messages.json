@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Pencerelerin ve sekmelerin durumunu kaydeder ve geri yükler. Otomatik kaydetmeyi de destekler."
   },
-  "donateWithPaypalLabel": {
-    "message": "Paypal ile bağış yap"
-  },
-  "donateLabel": {
-    "message": "Bağış yap"
-  },
   "openSessionListInTabLabel": {
     "message": "Oturum listesi sekmede açılsın"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Sıfırla"
   },
-  "backersLabel": {
-    "message": "Destekleyenler"
-  },
   "LicenseLabel": {
     "message": "Lisans"
-  },
-  "donationLabel": {
-    "message": "Lütfen bağış yapın"
-  },
-  "donationCaptionLabel": {
-    "message": "Tab Session Manager eklentisini kullandığınız için teşekkürler.<br>Desteğiniz eklentiyi geliştirmem için büyük bir teşvik olacak.<br>Tab Session Manager eklentisini beğendiyseniz, bağış yapmayı değerlendirin."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp hediye kartları"
-  },
-  "sponsorsLabel": {
-    "message": "Destekleyenler"
   },
   "addonPageLabel": {
     "message": "Eklenti sayfası"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Oturum"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

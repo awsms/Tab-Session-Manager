@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Salvează și restabiliește starea ferestrelor și a filelor. De asemenea, susține salvarea automată."
   },
-  "donateWithPaypalLabel": {
-    "message": "Donează prin PayPal"
-  },
-  "donateLabel": {
-    "message": "Donate"
-  },
   "openSessionListInTabLabel": {
     "message": "Open session list in tab"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Reset"
   },
-  "backersLabel": {
-    "message": "Backers"
-  },
   "LicenseLabel": {
     "message": "Licenţă"
-  },
-  "donationLabel": {
-    "message": "Vă rugăm să faceți o donație"
-  },
-  "donationCaptionLabel": {
-    "message": "Vă mulţumim că utilizaţi Tab Session Manager. <br>Sprijinul dumneavoastră ar însemna foarte mult, deoarce ne-ar ajuta să continuam dezvoltarea extensie. <br>Dacă vă place Tab Session Manager, orice donație este binevenită."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "Add-on page"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Sesiune"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

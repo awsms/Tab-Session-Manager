@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "保存、还原窗口与标签页的状态，支持自动保存。"
   },
-  "donateWithPaypalLabel": {
-    "message": "通过 Paypal 捐赠"
-  },
-  "donateLabel": {
-    "message": "捐赠"
-  },
   "openSessionListInTabLabel": {
     "message": "在标签内打开会话列表"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "重置"
   },
-  "backersLabel": {
-    "message": "支持者"
-  },
   "LicenseLabel": {
     "message": "许可证书"
-  },
-  "donationLabel": {
-    "message": "欢迎捐款"
-  },
-  "donationCaptionLabel": {
-    "message": "感谢您使用 Tab Session Manager.<br>您的支持将会成为我继续开发此附加组件的巨大鼓励。 <br>如果您喜欢 Tab Session Manager，希望您可以考虑捐助，我将为此感到欣慰。"
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp 电子礼品卡"
-  },
-  "sponsorsLabel": {
-    "message": "赞助商"
   },
   "addonPageLabel": {
     "message": "附加组件页面"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "会话（Session）"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=zh_CN"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/zh-CN/firefox/addon/tab-session-manager/?src=optionpage"

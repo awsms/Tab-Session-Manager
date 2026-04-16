@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "विंडो और टैब की स्थिति को सहेजें और फिर से चालू करें| यह स्वचालित बचत का भी समर्थन करता है।"
   },
-  "donateWithPaypalLabel": {
-    "message": "Donate with PayPal"
-  },
-  "donateLabel": {
-    "message": "Donate"
-  },
   "openSessionListInTabLabel": {
     "message": "Open session list in tab"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Reset"
   },
-  "backersLabel": {
-    "message": "Backers"
-  },
   "LicenseLabel": {
     "message": "लाइसेन्स"
-  },
-  "donationLabel": {
-    "message": "कृपया एक दान करें"
-  },
-  "donationCaptionLabel": {
-    "message": "टैब सत्र प्रबंधक का उपयोग करने के लिए धन्यवाद।<br>आपका समर्थन एक बड़ा प्रोत्साहन होगा, जैसा कि मैं ऐड-ऑन विकसित करना जारी रखता हूं।\n<br>यदि आप टैब सत्र प्रबंधक पसंद करते हैं, तो मुझे खुशी होगी अगर आप दान करने पर विचार करें|"
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift कार्ड"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "Add-on page"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "सत्र"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

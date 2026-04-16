@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Lưu và khôi phục lại trạng thái của cửa sổ và thẻ. Nó cũng hỗ trợ việc lưu tự động."
   },
-  "donateWithPaypalLabel": {
-    "message": "Đóng góp bằng PayPal"
-  },
-  "donateLabel": {
-    "message": "Ủng hộ"
-  },
   "openSessionListInTabLabel": {
     "message": "Hiển thị danh sách các phiên đang mở trên một tab"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Khôi phục"
   },
-  "backersLabel": {
-    "message": "Nhà đầu tư"
-  },
   "LicenseLabel": {
     "message": "Giấy phép"
-  },
-  "donationLabel": {
-    "message": "Hãy tài trợ cho tôi"
-  },
-  "donationCaptionLabel": {
-    "message": "Cảm ơn bạn đã sử dụng Tab Session Manager.<br>Sự hỗ trợ của bạn sẽ là một sự động viên lớn, khi tôi tiếp tục phát triển tiện ích này.<br>Nếu bạn thích Tab Session Manager, tôi rất vui lòng nếu bạn xem xét tài trợ."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Nhà tài trợ"
   },
   "addonPageLabel": {
     "message": "Trang Tiện ích"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Phiên làm việc"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/vi/firefox/addon/tab-session-manager/?src=optionpage"

@@ -10,8 +10,8 @@ const logDir = "popup/components/Error";
 const openIndexedDBWiki = () => {
   const url =
     browserInfo().name === "Chrome"
-      ? "https://github.com/sienori/Tab-Session-Manager/wiki/IndexedDB-Error-for-Chrome"
-      : "https://github.com/sienori/Tab-Session-Manager/wiki/IndexedDB-Error";
+      ? "https://github.com/awsms/Tab-Session-Manager/wiki/IndexedDB-Error-for-Chrome"
+      : "https://github.com/awsms/Tab-Session-Manager/wiki/IndexedDB-Error";
   openUrl(url);
 };
 

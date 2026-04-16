@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Zapisz i przywróć stan okien i kart. Obsługuje także automatyczne zapisywanie."
   },
-  "donateWithPaypalLabel": {
-    "message": "Wesprzyj przez PayPala"
-  },
-  "donateLabel": {
-    "message": "Wesprzyj"
-  },
   "openSessionListInTabLabel": {
     "message": "Otwórz listę sesji w karcie"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Resetuj"
   },
-  "backersLabel": {
-    "message": "Wspierający"
-  },
   "LicenseLabel": {
     "message": "Licencja"
-  },
-  "donationLabel": {
-    "message": "Proszę o dotację"
-  },
-  "donationCaptionLabel": {
-    "message": "Dziękuję za korzystanie z Tab Session Managera.<br>Twoje wsparcie będzie wielką zachętą do dalszego rozwijania dodatku.<br>Jeśli podoba ci się Tab Session Manager, byłbym bardzo wdzięczny za wszelkie datki."
-  },
-  "amazonTitleLabel": {
-    "message": "eKarty podarunkowe amazon.co.jp"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsorzy"
   },
   "addonPageLabel": {
     "message": "Strona dodatku"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Sesja"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=pl_PL"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/pl/firefox/addon/tab-session-manager/?src=optionpage"

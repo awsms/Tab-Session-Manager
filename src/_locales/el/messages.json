@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Αποθηκεύει και επαναφέρει παράθυρα και καρτέλες. Υποστηρίζει και αυτόματη αποθήκευση."
   },
-  "donateWithPaypalLabel": {
-    "message": "Δωρεά μέσω PayPal"
-  },
-  "donateLabel": {
-    "message": "Δωρίστε"
-  },
   "openSessionListInTabLabel": {
     "message": "Άνοιγμα της λίστας της συνεδρίας στην καρτέλα"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Επαναφορά"
   },
-  "backersLabel": {
-    "message": "Υποστηρικτές"
-  },
   "LicenseLabel": {
     "message": "Άδεια"
-  },
-  "donationLabel": {
-    "message": "Παρακαλούμε κάντε μας μια δωρεά"
-  },
-  "donationCaptionLabel": {
-    "message": "Ευχαριστούμε που χρησιμοποιείτε το Tab Session Manager.<br>Η υποοστήριξή σας μου δίνει κουράγιο ώστε να συνεχίσω την ανάπτυξη αυτού του πρόσθετου.<br>Αν σας αρέσει το Tab Session Manager και μπορείτε και να συνεισφέρετε κάτι, θα σας ήμουν υπόχρεος."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Χορηγοί"
   },
   "addonPageLabel": {
     "message": "Σελίδα πρόσθετου"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Συνεδρία"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

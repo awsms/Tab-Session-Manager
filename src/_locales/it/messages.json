@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Salva e ripristina lo stato di finestre e schede. Supporta anche il salvataggio automatico."
   },
-  "donateWithPaypalLabel": {
-    "message": "Dona con PayPal"
-  },
-  "donateLabel": {
-    "message": "Fai una donazione"
-  },
   "openSessionListInTabLabel": {
     "message": "Apri lista sessioni in una scheda"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Ripristina"
   },
-  "backersLabel": {
-    "message": "Donatori"
-  },
   "LicenseLabel": {
     "message": "Licenza"
-  },
-  "donationLabel": {
-    "message": "Per favore, considera una donazione"
-  },
-  "donationCaptionLabel": {
-    "message": "Grazie per utilizzare Tab Session Manager.<br>Il tuo supporto sarà un grande incoraggiamento mentre continuo a sviluppare questo componente aggiuntivo.<br>Se ti piace Tab Session Manager, sarei felice se potessi prendere in considerazione una donazione."
-  },
-  "amazonTitleLabel": {
-    "message": "Buoni Regalo amazon.co.jp"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsor"
   },
   "addonPageLabel": {
     "message": "Pagina del componente aggiuntivo"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Sessione"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

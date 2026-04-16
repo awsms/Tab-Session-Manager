@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Tallenna ja palauta ikkunoiden ja välilehtien tila. Myös automaattitallennusta tuetaan."
   },
-  "donateWithPaypalLabel": {
-    "message": "Lahjoita PayPalilla"
-  },
-  "donateLabel": {
-    "message": "Lahjoita"
-  },
   "openSessionListInTabLabel": {
     "message": "Avaa istuntolista välilehdessä"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Palauta"
   },
-  "backersLabel": {
-    "message": "Tukijat"
-  },
   "LicenseLabel": {
     "message": "Lisenssi"
-  },
-  "donationLabel": {
-    "message": "Tee lahjoitus, kiitos"
-  },
-  "donationCaptionLabel": {
-    "message": "Kiitos Tab Session Managerin käytöstä.<br>Tukesi merkitsee paljon, koska kehitän lisäosaa edelleen.<br>Jos pidät Tab Session Managerista, olisin kiitollinen, jos harkitsisit lahjoittamista."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift-lahjakortit"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsorit"
   },
   "addonPageLabel": {
     "message": "Lisäosan sivu"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Istunto"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=fi_FI"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/fi/firefox/addon/tab-session-manager/?src=optionpage"

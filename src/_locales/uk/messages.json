@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Зберігання та відновлення стану вікон і вкладок. Також підтримує автозбереження."
   },
-  "donateWithPaypalLabel": {
-    "message": "Офірувати через PayPal"
-  },
-  "donateLabel": {
-    "message": "Підтримати"
-  },
   "openSessionListInTabLabel": {
     "message": "Відкривати список сесії у вкладці"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Скинути"
   },
-  "backersLabel": {
-    "message": "Підтримати"
-  },
   "LicenseLabel": {
     "message": "Ліцензія"
-  },
-  "donationLabel": {
-    "message": "Будь ласка, подякуйте автору"
-  },
-  "donationCaptionLabel": {
-    "message": "Дякую, що використовуєте Tab Session Manager. <br> Ваша підтримка буде чудовим стимулом до продовження розробки цього доповнення. <br>Якщо вам сподобався Tab Session Manager, я буду дуже вдячний вашим пожертвам."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift Cards"
-  },
-  "sponsorsLabel": {
-    "message": "Спонсори"
   },
   "addonPageLabel": {
     "message": "Сторінка доповнення"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Сесія"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "කවුළු සහ ටැබ් වල තත්වය සුරකින්න සහ ප්‍රතිසාධනය කරන්න. එය ස්වයංක්‍රීය ඉතිරිකිරීම් සඳහාද සහාය වේ."
   },
-  "donateWithPaypalLabel": {
-    "message": "PayPal සමඟ පරිත්‍යාග කරන්න"
-  },
-  "donateLabel": {
-    "message": "පරිත්‍යාග කරන්න"
-  },
   "openSessionListInTabLabel": {
     "message": "ටැබය තුළ සැසි ලැයිස්තුව විවෘත කරන්න"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "යළි පිහිටුවන්න"
   },
-  "backersLabel": {
-    "message": "ආධාරකරුවන්"
-  },
   "LicenseLabel": {
     "message": "බලපත්රය"
-  },
-  "donationLabel": {
-    "message": "කරුණාකර පරිත්‍යාගයක් කරන්න"
-  },
-  "donationCaptionLabel": {
-    "message": "Tab Session Manager භාවිතා කිරීම ගැන ඔබට ස්තුතියි.<br>මම add-on එක දිගටම දියුණු කරන නිසා ඔබේ සහයෝගය විශාල දිරිගැන්වීමක් වේවි.<br>ඔබ ටැබ් සැසි කළමනාකරුට කැමති නම්, ඔබට පරිත්‍යාග කිරීම ගැන සලකා බැලිය හැකි නම් මම සතුටු වෙමි."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift කාඩ්පත්"
-  },
-  "sponsorsLabel": {
-    "message": "අනුග්‍රාහකයන්"
   },
   "addonPageLabel": {
     "message": "ඇඩෝන පිටුව"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "වාරය"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

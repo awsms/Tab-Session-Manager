@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "儲存與還原視窗跟分頁的瀏覽狀態。並支援自動儲存功能。"
   },
-  "donateWithPaypalLabel": {
-    "message": "透過 PayPal 贊助"
-  },
-  "donateLabel": {
-    "message": "贊助"
-  },
   "openSessionListInTabLabel": {
     "message": "在新分頁顯示瀏覽階段清單"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "重設"
   },
-  "backersLabel": {
-    "message": "贊助者清單"
-  },
   "LicenseLabel": {
     "message": "授權條款"
-  },
-  "donationLabel": {
-    "message": "您可以贊助我！"
-  },
-  "donationCaptionLabel": {
-    "message": "感謝您使用 Tab Session Manager。<br>您的支持是我繼續開發這個附加元件的動力。<br>若您喜歡 Tab Session Manager，希望您能夠贊助我。"
-  },
-  "amazonTitleLabel": {
-    "message": "贊助我 amazon 電子禮品卡"
-  },
-  "sponsorsLabel": {
-    "message": "贊助者"
   },
   "addonPageLabel": {
     "message": "附加元件說明頁面"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "瀏覽階段"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=zh_CN"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/zh-TW/firefox/addon/tab-session-manager/?src=optionpage"

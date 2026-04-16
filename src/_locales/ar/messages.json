@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "احفظ و استعد حالة النوافذ و التبويبات. كما أنها تدعم الحفظ التلقائي."
   },
-  "donateWithPaypalLabel": {
-    "message": "تبرع بواسطة PayPal"
-  },
-  "donateLabel": {
-    "message": "تبرع"
-  },
   "openSessionListInTabLabel": {
     "message": "فتح قائمة الجلسة في تبويب"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "إعادة تعيين"
   },
-  "backersLabel": {
-    "message": "الداعمون"
-  },
   "LicenseLabel": {
     "message": "الترخيص"
-  },
-  "donationLabel": {
-    "message": "الرجاء قدم تبرع"
-  },
-  "donationCaptionLabel": {
-    "message": "شكرا لك لاستخدام Tab Session Manager.<br> دعمك سوف يكون تشجيع كبير،كما أني اواصل تطوير الوظائف الإضافية.<br>إذا أعجبك Tab Session Manager، سوف أكون مسرورا إذا قدمت تبرعات."
-  },
-  "amazonTitleLabel": {
-    "message": "بطاقات هدايا amazon.co.jp"
-  },
-  "sponsorsLabel": {
-    "message": "Sponsors"
   },
   "addonPageLabel": {
     "message": "صفحة الاضافة"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "الجلسة"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=ar_DZ"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/ar-DZ/firefox/addon/tab-session-manager/?src=optionpage"

@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Ablakok és fülek állapotának mentése és visszaállítása. Automatikus állapot mentés is támogatva van."
   },
-  "donateWithPaypalLabel": {
-    "message": "Adományozz a PayPal -el"
-  },
-  "donateLabel": {
-    "message": "Adományozz"
-  },
   "openSessionListInTabLabel": {
     "message": "Munkamenet lista megnyitása a fülön"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Alaphelyzet"
   },
-  "backersLabel": {
-    "message": "Támogatók"
-  },
   "LicenseLabel": {
     "message": "Licenc"
-  },
-  "donationLabel": {
-    "message": "Kérjük adakozzon"
-  },
-  "donationCaptionLabel": {
-    "message": "Köszönöm hogy a Tab Session Manager -t használod!<br>A támogatásod nagy ösztönzést jelent számomra, hogy folytassam ennek a kiegészítőnek a fejlesztését.<br>Ha tetszik a Tab Session Manager, örülnék ha megfontolnád az adakozást."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp elektronikus ajándék kártya"
-  },
-  "sponsorsLabel": {
-    "message": "Szponzorok"
   },
   "addonPageLabel": {
     "message": "Kiegészítő oldala"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Munkamenet"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=hu_HU"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/hu/firefox/addon/tab-session-manager/?src=optionpage"

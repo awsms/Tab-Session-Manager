@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "Enregistrer et restaurer l’état des fenêtres et onglets. Prend également en charge la sauvegarde automatique."
   },
-  "donateWithPaypalLabel": {
-    "message": "Faire un don avec PayPal"
-  },
-  "donateLabel": {
-    "message": "Faire un don"
-  },
   "openSessionListInTabLabel": {
     "message": "Ouvrir la liste des sessions dans un onglet"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "Réinitialiser"
   },
-  "backersLabel": {
-    "message": "Contributeurs"
-  },
   "LicenseLabel": {
     "message": "Licence"
-  },
-  "donationLabel": {
-    "message": "Faites un don"
-  },
-  "donationCaptionLabel": {
-    "message": "Merci d’utiliser Tab Session Manager.<br>Votre soutien sera un grand encouragement, car je continue de développer l’extension. <br>Si vous aimez Session Manager, je serais heureux si vous pouviez envisager de faire un don."
-  },
-  "amazonTitleLabel": {
-    "message": "Cartes Cadeaux (amazon.co.jp)"
-  },
-  "sponsorsLabel": {
-    "message": "Parraineurs"
   },
   "addonPageLabel": {
     "message": "Page de l'extension"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "Session"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/fr/firefox/addon/tab-session-manager/?src=optionpage"

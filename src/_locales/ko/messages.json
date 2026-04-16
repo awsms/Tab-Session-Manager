@@ -5,12 +5,6 @@
   "extDescription": {
     "message": "창과 탭의 상태를 저장하고 복원합니다. 자동 저장 또한 지원합니다."
   },
-  "donateWithPaypalLabel": {
-    "message": "페이팔로 후원하기"
-  },
-  "donateLabel": {
-    "message": "후원하기"
-  },
   "openSessionListInTabLabel": {
     "message": "새 탭에서 세션 목록 열기"
   },
@@ -734,23 +728,8 @@
   "reset": {
     "message": "초기화"
   },
-  "backersLabel": {
-    "message": "도움을 주신 분"
-  },
   "LicenseLabel": {
     "message": "라이센스"
-  },
-  "donationLabel": {
-    "message": "후원을 통해 응원해주세요"
-  },
-  "donationCaptionLabel": {
-    "message": "Tab Session Manager을 사용해주셔서 감사합니다.<br>보내주신 응원은 저희가 계속 만들어나갈 수 있는 큰 힘이 되어줍니다.<br>Tab Session Manager를 좋아하신다면, 후원을 통한 응원을 고려해주세요."
-  },
-  "amazonTitleLabel": {
-    "message": "amazon.co.jp eGift 카드"
-  },
-  "sponsorsLabel": {
-    "message": "스폰서"
   },
   "addonPageLabel": {
     "message": "설치 페이지"
@@ -781,9 +760,6 @@
   },
   "sessionLabel": {
     "message": "세션"
-  },
-  "amazonUrl": {
-    "message": "https://www.amazon.co.jp/dp/B004N3APGO?language=en_US"
   },
   "addonUrl": {
     "message": "https://addons.mozilla.org/en-US/firefox/addon/tab-session-manager/?src=optionpage"

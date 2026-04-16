@@ -52,7 +52,7 @@ export async function openSession(session, property = "openInNewWindow") {
       } catch (e) {
         /**
          * @see https://source.chromium.org/chromium/chromium/src/+/d51682b36adc22496f45a8111358a8bb30914534
-         * @see https://github.com/sienori/Tab-Session-Manager/issues/1057
+         * @see https://github.com/awsms/Tab-Session-Manager/issues/1057
          * try to open a window in "safe" mode
          */
         currentWindow = await browser.windows.create({
